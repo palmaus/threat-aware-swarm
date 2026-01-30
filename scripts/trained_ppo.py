@@ -97,6 +97,10 @@ class SwarmInfoMetricsCallback(BaseCallback):
     Мы агрегируем по векторизованным окружениям и логируем:
       swarm/alive_frac
       swarm/finished_frac
+      swarm/finished_alive_frac
+      swarm/finished_given_alive
+      swarm/newly_finished_frac
+      swarm/mean_in_goal_steps
       swarm/in_goal_frac
       swarm/mean_dist
       swarm/mean_risk_p
@@ -118,6 +122,9 @@ class SwarmInfoMetricsCallback(BaseCallback):
         # infos — список словарей длины n_envs
         alive = []
         finished = []
+        finished_alive = []
+        newly_finished = []
+        in_goal_steps = []
         in_goal = []
         dist = []
         risk = []
@@ -126,8 +133,22 @@ class SwarmInfoMetricsCallback(BaseCallback):
         for inf in infos:
             if not isinstance(inf, dict):
                 continue
-            alive.append(safe_float(inf.get("alive", 1.0), 1.0))
+            if not inf:
+                alive.append(0.0)
+                finished.append(0.0)
+                finished_alive.append(0.0)
+                newly_finished.append(0.0)
+                in_goal_steps.append(float("nan"))
+                in_goal.append(0.0)
+                dist.append(float("nan"))
+                risk.append(float("nan"))
+                mind.append(float("nan"))
+                continue
+            alive.append(safe_float(inf.get("alive", 0.0), 0.0))
             finished.append(1.0 if inf.get("finished", False) else 0.0)
+            finished_alive.append(1.0 if inf.get("finished_alive", False) else 0.0)
+            newly_finished.append(1.0 if inf.get("newly_finished", False) else 0.0)
+            in_goal_steps.append(safe_float(inf.get("in_goal_steps", np.nan)))
             in_goal.append(1.0 if inf.get("in_goal", False) else 0.0)
             dist.append(safe_float(inf.get("dist", np.nan)))
             risk.append(safe_float(inf.get("risk_p", 0.0), 0.0))
@@ -137,8 +158,19 @@ class SwarmInfoMetricsCallback(BaseCallback):
             arr = np.array(xs, dtype=np.float32)
             return float(np.nanmean(arr)) if arr.size else float("nan")
 
-        self.logger.record("swarm/alive_frac", nanmean(alive))
-        self.logger.record("swarm/finished_frac", nanmean(finished))
+        alive_frac = nanmean(alive)
+        finished_frac = nanmean(finished)
+        finished_alive_frac = nanmean(finished_alive)
+        alive_sum = float(np.nansum(alive)) if alive else 0.0
+        finished_alive_sum = float(np.nansum(finished_alive)) if finished_alive else 0.0
+        finished_given_alive = finished_alive_sum / max(1.0, alive_sum)
+
+        self.logger.record("swarm/alive_frac", alive_frac)
+        self.logger.record("swarm/finished_frac", finished_frac)
+        self.logger.record("swarm/finished_alive_frac", finished_alive_frac)
+        self.logger.record("swarm/finished_given_alive", finished_given_alive)
+        self.logger.record("swarm/newly_finished_frac", nanmean(newly_finished))
+        self.logger.record("swarm/mean_in_goal_steps", nanmean(in_goal_steps))
         self.logger.record("swarm/in_goal_frac", nanmean(in_goal))
         self.logger.record("swarm/mean_dist", nanmean(dist))
         self.logger.record("swarm/mean_risk_p", nanmean(risk))

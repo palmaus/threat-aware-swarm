@@ -219,6 +219,9 @@ class SwarmPZEnv(ParallelEnv):
                 "alive": float(alive[i]),
                 "in_goal": float(in_goal[i]),
                 "finished": float(self.finished[i]),
+                "finished_alive": float(bool(self.finished[i]) and bool(alive[i])),
+                "in_goal_steps": int(self.in_goal_steps[i]),
+                "newly_finished": float(newly_finished[i]),
                 "risk_p": float(risk_p[i]),
                 "min_neighbor_dist": mnd,
             }
