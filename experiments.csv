@@ -1,0 +1,2 @@
+run_id,seed,total_timesteps,n_steps,batch_size,gamma,ent_coef,lr0,alive_frac,finished_frac,steps
+20260118_203327,42,8000000,1024,2048,0.995,0.003,0.0003,0.8800000000000001,0.5900000000000001,369.3
