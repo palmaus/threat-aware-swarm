@@ -1,0 +1,6 @@
+export const RENDER_CONST = {
+  ZOOM_OUT: 1.15,
+  WIND_SCALE: 8.0,
+  GRID_SIZE: 132,
+  MINIMAP_SIZE: 140,
+};
