@@ -1,294 +1,187 @@
-"""PettingZoo ParallelEnv для задачи роя, учитывающего угрозы.
+"""PettingZoo ParallelEnv для роя с учетом угроз.
 
-Эта среда предназначена для стека:
-  PettingZoo (Parallel API) + SuperSuit + Stable-Baselines3 (PPO)
-
-Основные особенности реализации:
-1) Глобальное завершение эпизода:
-   Эпизод завершается для *всех* агентов одновременно (по таймауту / все мертвы / все завершили).
-
-2) Мертвые / завершившие агенты остаются:
-   Набор агентов (possible_agents) фиксирован в течение эпизода.
-   Если агент умирает, он получает штраф за смерть, затем нулевую награду и наблюдение.
-   Если агент завершает задачу, его действия игнорируются.
-
-3) Информация для логирования:
-   Каждый шаг возвращает информацию по каждому агенту, включая:
-     расстояние, живой, в цели, завершил, риск, минимальное расстояние до соседа.
+Среда рассчитана на стек PettingZoo (Parallel API) + SuperSuit + Stable-Baselines3 (PPO).
 """
 
 from __future__ import annotations
+
+from typing import Any, ClassVar
 
 import numpy as np
 from gymnasium import spaces
 from pettingzoo import ParallelEnv
 
+from common.runtime.contracts import maybe_validate_reset
 from env.config import EnvConfig
-from env.core import SwarmSimulator
+from env.engine import SwarmEngine
+from env.observations.observer import SwarmObserver
+from env.rewards.dto import RewardRuntimeView
+from env.rewards.rewarder import RewardConfig, SwarmRewarder
+from env.state import PublicState, SimState
 
-
-class RewardConfig:
-    """Настройки формирования наград.
-    Значения по умолчанию стабильны для PPO.
-    """
-
-    # Основная задача
-    w_progress: float = 5.0            # вес за прогресс (уменьшение расстояния до цели)
-    w_finish_bonus: float = 50.0       # бонус за завершение задачи
-    w_in_goal_step: float = 1.0        # награда за нахождение в цели
-    w_center: float = 1.0              # дополнительная награда за приближение к центру цели
-
-    # Безопасность / ограничения
-    death_penalty: float = 200.0       # штраф за смерть
-    w_risk: float = 2.0                # штраф за риск
-    w_wall: float = 20.0               # штраф за приближение к стенам
-
-    # Регуляризация движения
-    w_speed: float = 0.05              # штраф за скорость
-    brake_dist: float = 10.0           # дистанция начала торможения
-
-    # Расстояние между агентами
-    sep_radius: float = 1.5            # минимальное расстояние до соседа
-    w_sep: float = 0.5                 # штраф за близость к соседу
-    sep_disable_in_goal: bool = True   # не штрафовать за близость в зоне цели
+ENV_SCHEMA_VERSION = EnvConfig().obs_schema_version
 
 
 class SwarmPZEnv(ParallelEnv):
-    metadata = {"render_modes": ["human"], "name": "swarm_v1"}
+    metadata: ClassVar[dict[str, object]] = {"render_modes": ["human"], "name": "swarm_env"}
 
     def __init__(
         self,
         config: EnvConfig | None = None,
-        render_mode=None,
         reward_cfg: RewardConfig | None = None,
         *,
         goal_radius: float = 3.0,
         goal_hold_steps: int = 10,
         max_steps: int = 600,
-    ):
+        oracle_enabled: bool = True,
+        oracle_cell_size: float = 1.0,
+        oracle_async: bool = False,
+        shared_curriculum: dict | None = None,
+    ) -> None:
         if config is None:
             config = EnvConfig()
-        self.config = config
-        self.sim = SwarmSimulator(config)
-        self.render_mode = render_mode
-
+        self.render_mode = None
         self.reward = reward_cfg if reward_cfg is not None else RewardConfig()
 
-        # Agents
-        self.possible_agents = [f"drone_{i}" for i in range(config.n_agents)]
-        self.agents = self.possible_agents[:]  # keep fixed set for vectorization
+        self.engine = SwarmEngine(
+            config,
+            reward_cfg=self.reward,
+            goal_radius=goal_radius,
+            goal_hold_steps=goal_hold_steps,
+            max_steps=max_steps,
+            oracle_enabled=oracle_enabled,
+            oracle_cell_size=oracle_cell_size,
+            oracle_async=oracle_async,
+            shared_curriculum=shared_curriculum,
+        )
+        self.config = self.engine.config
+        self.observer = SwarmObserver(self.config, rng=self.engine.rng)
+        self.rewarder = SwarmRewarder(
+            self.reward,
+            field_size=self.config.field_size,
+            goal_radius=self.engine.goal_radius,
+        )
+        self.obs_builder = self.observer.obs_builder
+        self.reward_fn = self.rewarder.reward_fn
+        self.metrics_fn = self.rewarder.metrics_fn
 
-        # Task geometry
-        self.goal_radius = float(goal_radius)
-        self.goal_hold_steps = int(goal_hold_steps)
-        self.max_steps = int(max_steps)
-
-        # Observation layout
-        # [to_target(2), vel(2), walls(4), risk_grid(11x11)]
-        self.grid_width = 11
-        # Base observation: to_target(2) + vel(2) + wall_lidar(4) + risk_grid(grid_width^2)
-        self.base_obs_dim = 2 + 2 + 4 + (self.grid_width**2)
-        # Some older checkpoints were trained with extra scalars appended.
-        # To evaluate them reliably, we can set obs_dim_target to match the checkpoint's expected dim.
-        self.obs_dim = int(self.base_obs_dim)
-
-        self.observation_spaces = {
-            agent: spaces.Box(low=-1.0, high=1.0, shape=(self.obs_dim,), dtype=np.float32)
-            for agent in self.possible_agents
-        }
-        self.action_spaces = {
-            agent: spaces.Box(low=-1.0, high=1.0, shape=(2,), dtype=np.float32)
-            for agent in self.possible_agents
-        }
-
-        # Episode state
-        self.target_pos = np.zeros(2, dtype=np.float32)
-        self.prev_dists = np.zeros(config.n_agents, dtype=np.float32)
-        self.was_alive = np.ones(config.n_agents, dtype=bool)
-        self.in_goal_steps = np.zeros(config.n_agents, dtype=np.int32)
-        self.finished = np.zeros(config.n_agents, dtype=bool)
-
-    # --------- PettingZoo API ---------
-
-    def reset(self, seed=None, options=None):
-        # Сброс состояния среды и агентов
+        self.possible_agents = [f"drone_{i}" for i in range(self.config.n_agents)]
         self.agents = self.possible_agents[:]
 
-        self.sim.reset()
+        self.env_schema_version = self.observer.env_schema_version
+        self.grid_width = int(self.observer.grid_width)
+        self.vector_dim = int(self.observer.vector_dim)
+        self.obs_dim = int(self.vector_dim + (self.grid_width**2))
 
-        # Случайная инициализация цели и начальных позиций
-        self.target_pos = np.random.uniform(80, 95, 2).astype(np.float32)
-        start_center = np.random.uniform(5, 20, 2).astype(np.float32)
-        self.sim.agents_pos = start_center + np.random.normal(0, 2, (self.config.n_agents, 2)).astype(np.float32)
-        self.sim.agents_pos = np.clip(self.sim.agents_pos, 0, self.config.field_size)
+        self.observation_spaces = self.observer.make_observation_spaces(self.possible_agents)
+        self.action_spaces = {
+            agent: spaces.Box(low=-1.0, high=1.0, shape=(2,), dtype=np.float32) for agent in self.possible_agents
+        }
 
-        # Генерация угроз
-        for _ in range(np.random.randint(3, 6)):
-            t_pos = np.random.uniform(30, 70, 2).astype(np.float32)
-            self.sim.add_threat(t_pos, np.random.uniform(10, 15), 0.1)
-
-        self.prev_dists = np.linalg.norm(self.sim.agents_pos - self.target_pos, axis=1).astype(np.float32)
-        self.was_alive[:] = True
-        self.in_goal_steps[:] = 0
-        self.finished[:] = False
-
-        observations = {a: self._get_obs(i) for i, a in enumerate(self.possible_agents)}
-        infos = {a: {} for a in self.possible_agents}
+    def reset(self, seed=None, options=None):
+        self.agents = self.possible_agents[:]
+        state = self.engine.reset(seed=seed, options=options)
+        self.observer.set_rng(self.engine.get_rng("obs"))
+        self.observer.sync_from_engine(self.engine.config)
+        self.rewarder.sync_from_engine(
+            field_size=self.engine.config.field_size,
+            goal_radius=self.engine.goal_radius,
+            battery_drain_hover=getattr(self.engine.config.battery, "drain_hover", None),
+            battery_drain_thrust=getattr(self.engine.config.battery, "drain_thrust", None),
+        )
+        observations = self.observer.build_all(state, self.possible_agents)
+        infos = self.rewarder.build_reset_infos(state, self._reward_runtime_view(), self.possible_agents)
+        runtime_mode = str(getattr(self.engine.config, "runtime_mode", "full")).strip().lower()
+        if runtime_mode not in {"train_fast", "fast"}:
+            try:
+                public_state = self.engine.get_public_state(include_oracle=True)
+            except Exception:
+                public_state = None
+            if public_state is not None:
+                maybe_validate_reset(
+                    state=state,
+                    public_state=public_state,
+                    observations=observations,
+                    grid_width=int(getattr(self.engine.config, "grid_width", 41)),
+                )
         return observations, infos
 
     def step(self, actions):
-        # Применение действий для всех агентов и выполнение одного шага симуляции
-
-        # Кэширование состояния агентов до шага симуляции
-        alive_before = self.sim.agents_active.copy()
-
-        # Построение команд скоростей (мертвые/завершившие агенты получают нулевую скорость)
-        velocities = np.zeros((self.sim.n, 2), dtype=np.float32)
-        for agent_id, action in (actions or {}).items():
-            try:
-                idx = int(agent_id.split("_")[1])
-            except Exception:
-                continue
-
-            if idx < 0 or idx >= self.sim.n:
-                continue
-
-            if not self.sim.agents_active[idx]:
-                continue
-            if self.finished[idx]:
-                continue
-
-            act = np.asarray(action, dtype=np.float32)
-            velocities[idx] = act * float(self.config.max_speed)
-
-        # Выполнение одного шага физической симуляции
-        self.sim.step(velocities)
-
-        # Пост-обработка после шага
-        pos = self.sim.agents_pos
-        vel = self.sim.agents_vel
-        alive = self.sim.agents_active
-        dists = np.linalg.norm(pos - self.target_pos, axis=1).astype(np.float32)
-
-        # Вычисление сигналов для каждого агента
-        in_goal = (dists <= self.goal_radius) & alive
-
-        # Логика удержания в цели
-        self.in_goal_steps[in_goal] += 1
-        self.in_goal_steps[~in_goal] = 0
-
-        newly_finished = (~self.finished) & (self.in_goal_steps >= self.goal_hold_steps)
-        self.finished[newly_finished] = True
-
-        # Вероятность риска для каждого агента
-        risk_p = self._compute_risk_probs(pos)
-
-        # Минимальное расстояние до ближайшего соседа
-        min_neighbor_dist = self._compute_min_neighbor_dist(pos, alive)
-
-        # Условие завершения эпизода
-        is_timeout = self.sim.time_step >= self.max_steps
-        all_dead = not bool(np.any(alive))
-        active_mask = alive
-        all_finished = bool(np.all(self.finished[active_mask])) if np.any(active_mask) else False
-        done = bool(is_timeout or all_dead or all_finished)
-
-        # Награды и выходные данные
+        total_rewards: dict[str, float] | None = None
+        merged_infos: dict[str, dict[str, Any]] | None = None
         observations = {}
-        rewards = {}
         terminations = {}
         truncations = {}
         infos = {}
-
-        # Обнаружение смертей для одноразового штрафа
-        died_this_step = alive_before & (~alive)
-
-        for i, agent_id in enumerate(self.possible_agents):
-            # Минимальное расстояние до соседа имеет смысл только для живых агентов
-            if not alive[i]:
-                mnd = 0.0
+        debug_metrics = bool(getattr(self.config, "debug_metrics", True))
+        decision = self.engine.step(actions)
+        last_state = None
+        for step in decision.steps:
+            last_state = step.state
+            reward_out = self.rewarder.build_step_result(
+                step,
+                self._reward_runtime_view(),
+                self.possible_agents,
+                debug_metrics=debug_metrics,
+            )
+            rewards, infos, terminations, truncations = reward_out.as_tuple()
+            try:
+                self.engine.event_stats.record_costs(infos)
+            except Exception:
+                pass
+            if total_rewards is None:
+                total_rewards = {k: float(v) for k, v in rewards.items()}
             else:
-                mnd = float(min_neighbor_dist[i])
-                if not np.isfinite(mnd):
-                    # Если это последний живой агент, считать его очень безопасным, а не 0.
-                    mnd = float(self.config.field_size)
+                for key, val in rewards.items():
+                    total_rewards[key] = float(total_rewards.get(key, 0.0) + float(val))
+            merged_infos = self._merge_step_infos(merged_infos, infos)
+            if all(terminations.values()) or all(truncations.values()):
+                break
+        if last_state is not None:
+            observations = self.observer.build_all(last_state, self.possible_agents)
+        if total_rewards is None:
+            total_rewards = dict.fromkeys(self.possible_agents, 0.0)
+        if merged_infos is not None:
+            infos = merged_infos
+            for agent_id, reward_val in total_rewards.items():
+                if agent_id in infos:
+                    infos[agent_id]["rew_total"] = float(reward_val)
+        return observations, total_rewards, terminations, truncations, infos
 
-            # Информация для логирования (всегда включать ключи; это ожидается в колбэке)
-            infos[agent_id] = {
-                "dist": float(dists[i]),
-                "alive": float(alive[i]),
-                "in_goal": float(in_goal[i]),
-                "finished": float(self.finished[i]),
-                "finished_alive": float(bool(self.finished[i]) and bool(alive[i])),
-                "in_goal_steps": int(self.in_goal_steps[i]),
-                "newly_finished": float(newly_finished[i]),
-                "risk_p": float(risk_p[i]),
-                "min_neighbor_dist": mnd,
-            }
+    @staticmethod
+    def _merge_step_infos(
+        accumulated: dict[str, dict[str, Any]] | None,
+        current: dict[str, dict[str, Any]],
+    ) -> dict[str, dict[str, Any]]:
+        if accumulated is None:
+            return {agent_id: dict(info) for agent_id, info in current.items()}
+        event_max_keys = {"newly_finished", "died_this_step"}
+        for agent_id, info in current.items():
+            if not isinstance(info, dict):
+                continue
+            prev = accumulated.setdefault(agent_id, {})
+            summed: dict[str, float] = {}
+            maxed: dict[str, float] = {}
+            for key, val in info.items():
+                if key.startswith(("rew_", "cost_")):
+                    try:
+                        summed[key] = float(prev.get(key, 0.0)) + float(val)
+                    except Exception:
+                        pass
+                elif key in event_max_keys:
+                    try:
+                        maxed[key] = max(float(prev.get(key, 0.0)), float(val))
+                    except Exception:
+                        pass
+            prev.update(info)
+            prev.update(summed)
+            prev.update(maxed)
+        return accumulated
 
-            # Наблюдения
-            if not alive[i]:
-                observations[agent_id] = np.zeros(self.obs_dim, dtype=np.float32)
-            else:
-                observations[agent_id] = self._get_obs(i)
-
-            # Награды
-            rew = 0.0
-
-            # Одноразовый штраф за смерть
-            if died_this_step[i]:
-                rew -= float(self.reward.death_penalty)
-
-            # Формирование наград для живых агентов
-            if alive[i] and (not self.finished[i]):
-                # (1) Награда за прогресс
-                rew += float(self.reward.w_progress) * float(self.prev_dists[i] - dists[i])
-
-                # (2) Награда за нахождение в цели + приближение к центру
-                if in_goal[i]:
-                    rew += float(self.reward.w_in_goal_step)
-                    # Поощрение достижения центра (предотвращает остановку на границе)
-                    center_bonus = max(0.0, 1.0 - float(dists[i] / max(self.goal_radius, 1e-6)))
-                    rew += float(self.reward.w_center) * center_bonus
-
-                # (3) Бонус за завершение (только один раз)
-                if newly_finished[i]:
-                    rew += float(self.reward.w_finish_bonus)
-
-                # (4) Штраф за риск
-                rew -= float(self.reward.w_risk) * float(risk_p[i])
-
-                # (5) Штраф за приближение к стенам
-                walls = self.sim.get_wall_distances(i)
-                min_wall = float(np.min(walls))
-                if min_wall < 0.05:
-                    rew -= float(self.reward.w_wall) * (0.05 - min_wall)
-
-                # (6) Штраф за торможение рядом с целью (с градиентом)
-                if dists[i] < float(self.reward.brake_dist):
-                    speed = float(np.linalg.norm(vel[i]))
-                    gate = max(0.0, (float(self.reward.brake_dist) - float(dists[i])) / max(float(self.reward.brake_dist), 1e-6))
-                    rew -= float(self.reward.w_speed) * speed * gate
-
-                # (7) Штраф за близость к соседу (отключается в зоне цели, если указано)
-                if float(self.reward.w_sep) > 0.0:
-                    if not (self.reward.sep_disable_in_goal and in_goal[i]):
-                        md = float(min_neighbor_dist[i])
-                        if np.isfinite(md) and md < float(self.reward.sep_radius):
-                            # Штраф: 0, если md >= sep_radius
-                            rew -= float(self.reward.w_sep) * (float(self.reward.sep_radius) - md) / max(float(self.reward.sep_radius), 1e-6)
-
-            # Мертвые или завершившие агенты: без формирования наград (кроме одноразовых штрафов/бонусов выше)
-            rewards[agent_id] = float(rew)
-
-            # Глобальное завершение для всех агентов
-            terminations[agent_id] = bool(done and (not is_timeout))
-            truncations[agent_id] = bool(done and is_timeout)
-
-        # Обновление состояния для следующего шага
-        self.prev_dists = dists
-
-        return observations, rewards, terminations, truncations, infos
+    def apply_curriculum(self, stage_params: dict) -> None:
+        self.engine.apply_curriculum(stage_params)
+        self.rewarder.sync_from_engine(field_size=self.engine.config.field_size, goal_radius=self.engine.goal_radius)
+        self.observer.sync_from_engine(self.engine.config)
 
     def observation_space(self, agent):
         return self.observation_spaces[agent]
@@ -296,76 +189,346 @@ class SwarmPZEnv(ParallelEnv):
     def action_space(self, agent):
         return self.action_spaces[agent]
 
-    def _compute_risk_probs(self, positions: np.ndarray) -> np.ndarray:
-        # Моментальная вероятность смерти на каждом шаге для каждой позиции агента
-        n = positions.shape[0]
-        risk = np.zeros(n, dtype=np.float32)
-        if not self.sim.threats:
-            return risk
+    def get_state(self) -> SimState:
+        return self.engine.get_state_copy()
 
-        # Для каждого агента, p = 1 - Π(1 - intensity_k) по угрозам, которые его покрывают
-        for i in range(n):
-            if not self.sim.agents_active[i]:
-                continue
-            prod = 1.0
-            p = positions[i]
-            for t in self.sim.threats:
-                # внутри радиуса угрозы?
-                if float(np.linalg.norm(p - t.position)) <= float(t.radius):
-                    prod *= (1.0 - float(t.intensity))
-            risk[i] = float(1.0 - prod)
-        return risk
+    def get_public_state(self, *, include_oracle: bool = True) -> PublicState:
+        return self.engine.get_public_state(include_oracle=include_oracle)
 
-    def _compute_min_neighbor_dist(self, positions: np.ndarray, alive: np.ndarray) -> np.ndarray:
-        #Минимальное расстояние до любого другого живого агента. Мертвые агенты -> бесконечность.
-        n = positions.shape[0]
-        out = np.full(n, np.inf, dtype=np.float32)
-        idx = np.where(alive)[0]
-        if idx.size <= 1:
-            return out
+    @property
+    def n_agents(self) -> int:
+        return int(self.config.n_agents)
 
-        # Парные расстояния среди живых агентов (N_alive x N_alive)
-        pts = positions[idx]
-        diff = pts[:, None, :] - pts[None, :, :]
-        dmat = np.linalg.norm(diff, axis=2)
-        np.fill_diagonal(dmat, np.inf)
-        mins = np.min(dmat, axis=1)
-        out[idx] = mins.astype(np.float32)
-        return out
+    @property
+    def goal_radius(self) -> float:
+        return float(self.engine.goal_radius)
 
-    def _get_obs(self, idx: int) -> np.ndarray:
-        if not self.sim.agents_active[idx]:
-            return np.zeros(self.obs_dim, dtype=np.float32)
+    @goal_radius.setter
+    def goal_radius(self, value: float) -> None:
+        self.engine.goal_radius = float(value)
+        self.rewarder.sync_from_engine(field_size=self.engine.config.field_size, goal_radius=self.engine.goal_radius)
 
-        me_pos = self.sim.agents_pos[idx]
-        me_vel = self.sim.agents_vel[idx]
+    def sample_wind(self, agent_idx: int) -> np.ndarray | None:
+        return self.engine.sample_wind(agent_idx)
 
-        # Нормализация к диапазону примерно [-1, 1]
-        to_target = (self.target_pos - me_pos) / float(self.config.field_size)
-        norm_vel = me_vel / max(float(self.config.max_speed), 1e-6)
-        walls = self.sim.get_wall_distances(idx)  # уже нормализованы [0, 1]
+    def set_threat_speed_scale(self, value: float) -> None:
+        self.engine.set_threat_speed_scale(value)
 
-        # Локальная сетка риска
-        grid = np.zeros((self.grid_width, self.grid_width), dtype=np.float32)
-        center = self.grid_width // 2
-        res = 4.0  # метров на ячейку (фиксировано)
+    def get_threat_speed_scale(self) -> float:
+        return self.engine.get_threat_speed_scale()
 
-        for t in self.sim.threats:
-            rel = t.position - me_pos
-            if abs(float(rel[0])) > 25.0 or abs(float(rel[1])) > 25.0:
-                continue
+    def set_oracle_options(
+        self,
+        *,
+        enabled: bool | None = None,
+        async_mode: bool | None = None,
+        update_interval: int | None = None,
+        recompute: bool = True,
+    ) -> None:
+        self.engine.set_oracle_options(
+            enabled=enabled,
+            async_mode=async_mode,
+            update_interval=update_interval,
+            recompute=recompute,
+        )
 
-            cx = center + int(float(rel[0]) / res)
-            cy = center + int(float(rel[1]) / res)
-            r_cells = int(float(t.radius) / res)
+    def set_runtime_defaults(
+        self,
+        *,
+        max_speed: float | None = None,
+        mass: float | None = None,
+        max_thrust: float | None = None,
+        drag_coeff: float | None = None,
+    ) -> None:
+        self.engine.set_runtime_defaults(
+            max_speed=max_speed,
+            mass=mass,
+            max_thrust=max_thrust,
+            drag_coeff=drag_coeff,
+        )
+        self.rewarder.sync_from_engine(field_size=self.engine.config.field_size, goal_radius=self.engine.goal_radius)
+        self.observer.sync_from_engine(self.engine.config)
 
-            x1 = max(0, cx - r_cells)
-            x2 = min(self.grid_width, cx + r_cells + 1)
-            y1 = max(0, cy - r_cells)
-            y2 = min(self.grid_width, cy + r_cells + 1)
+    def set_walls(self, walls) -> None:
+        self.engine.set_walls(walls)
 
-            if x1 < x2 and y1 < y2:
-                grid[y1:y2, x1:x2] = np.maximum(grid[y1:y2, x1:x2], float(t.intensity))
+    def set_static_circles(self, circles) -> None:
+        self.engine.set_static_circles(circles)
 
-        obs = np.concatenate([to_target, norm_vel, walls, grid.flatten()]).astype(np.float32)
-        return obs
+    def set_agent_positions(self, positions) -> None:
+        self.engine.set_agent_positions(positions)
+
+    def clear_threats(self) -> None:
+        self.engine.clear_threats()
+
+    def replace_threats(self, threats) -> None:
+        self.engine.replace_threats(threats)
+
+    def add_threat_object(self, threat) -> None:
+        self.engine.add_threat_object(threat)
+
+    def add_static_threat(self, position, radius: float, intensity: float, *, oracle_block: bool = True) -> None:
+        self.engine.add_static_threat(position, radius, intensity, oracle_block=oracle_block)
+
+    def configure_target_motion(self, cfg: dict | None) -> None:
+        self.engine.configure_target_motion(cfg)
+
+    def get_oracle_path(self) -> list[list[float]]:
+        oracle = self.engine.oracle
+        if oracle is None:
+            return []
+        try:
+            return [[float(x), float(y)] for x, y in (oracle.path or [])]
+        except Exception:
+            return []
+
+    def get_agent_observation(self, agent_idx: int, state: SimState | None = None) -> dict[str, np.ndarray]:
+        obs = self._get_obs(agent_idx, state)
+        return {key: np.array(value, copy=True) for key, value in obs.items()}
+
+    def get_runtime_snapshot(
+        self,
+        *,
+        include_oracle: bool = True,
+        policy: object | None = None,
+        policy_name: str | None = None,
+    ) -> dict[str, Any]:
+        from common.policy.oracle_visibility import oracle_visible_for_policy
+
+        oracle_visible = bool(include_oracle)
+        if policy is not None or policy_name is not None:
+            oracle_visible = bool(oracle_visible_for_policy(self.config, policy=policy, policy_name=policy_name))
+        state = self.get_public_state(include_oracle=oracle_visible)
+        threats = []
+        for threat in state.threats or []:
+            velocity = getattr(threat, "velocity", getattr(threat, "vel", np.zeros(2, dtype=np.float32)))
+            threats.append(
+                (
+                    np.array(getattr(threat, "position", np.zeros(2, dtype=np.float32)), dtype=np.float32, copy=True),
+                    float(getattr(threat, "radius", 0.0)),
+                    float(getattr(threat, "intensity", 0.0)),
+                    np.array(velocity, dtype=np.float32, copy=True),
+                )
+            )
+        return {
+            "agents_pos": np.array(state.pos, dtype=np.float32, copy=True),
+            "agents_vel": np.array(state.vel, dtype=np.float32, copy=True),
+            "agents_active": np.array(state.alive, dtype=bool, copy=True),
+            "agent_state": np.array(state.agent_state, dtype=np.int8, copy=True),
+            "finished": np.array(self.engine.finished, dtype=bool, copy=True),
+            "in_goal": np.array(state.in_goal, dtype=bool, copy=True),
+            "threats": threats,
+            "walls": [list(w) for w in state.static_walls],
+            "static_circles": [list(c) for c in state.static_circles],
+            "field_size": float(state.field_size),
+            "max_speed": float(state.max_speed),
+            "dt": float(state.dt),
+            "max_accel": float(state.max_accel),
+            "max_thrust": float(state.max_thrust),
+            "mass": float(state.mass),
+            "drag_coeff": float(state.drag_coeff),
+            "drag": float(state.drag),
+            "agent_radius": float(state.agent_radius),
+            "wall_friction": float(state.wall_friction),
+            "grid_res": float(state.grid_res),
+            "target_pos": np.array(state.target_pos, dtype=np.float32, copy=True),
+            "target_vel": np.array(state.target_vel, dtype=np.float32, copy=True),
+            "oracle_dir": None
+            if state.oracle_dir is None
+            else np.array(state.oracle_dir, dtype=np.float32, copy=True),
+            "oracle_visible": oracle_visible,
+            "goal_radius": float(self.goal_radius),
+            "timestep": int(state.timestep),
+            "decision_step": int(state.decision_step),
+            "control_mode": str(state.control_mode),
+            "energy_level": np.array(state.energy_level, dtype=np.float32, copy=True),
+            "measured_accel": np.array(state.measured_accel, dtype=np.float32, copy=True),
+        }
+
+    def get_episode_summary(self):
+        return self.engine.get_episode_summary()
+
+    def close(self) -> None:
+        self.engine.close()
+
+    @property
+    def decision_loop(self):
+        return self.engine.decision_loop
+
+    @property
+    def physics_loop(self):
+        return self.engine.physics_loop
+
+    @property
+    def event_stats(self):
+        return self.engine.event_stats
+
+    @property
+    def rng_registry(self):
+        return self.engine.rng_registry
+
+    def get_rng(self, name: str):
+        return self.engine.get_rng(name)
+
+    def _set_rng(self, seed: int) -> None:
+        self.engine._set_rng(seed)
+
+    def _get_obs(self, idx: int, state: SimState | None = None) -> dict[str, np.ndarray]:
+        if state is None:
+            state = self.engine.get_state()
+        return self.observer.build(state, idx)
+
+    def _zero_obs(self) -> dict[str, np.ndarray]:
+        return self.observer.zero_obs()
+
+    def _reward_runtime_view(self) -> RewardRuntimeView:
+        return self.engine.get_reward_runtime_view()
+
+    @property
+    def sim(self):
+        return self.engine.sim
+
+    @property
+    def spawn(self):
+        return self.engine.spawn
+
+    @property
+    def scene(self):
+        return self.engine.scene
+
+    @property
+    def oracle(self):
+        return self.engine.oracle
+
+    @oracle.setter
+    def oracle(self, value) -> None:
+        self.engine.oracle = value
+        if hasattr(value, "optimal_len"):
+            self.engine._optimal_len = value.optimal_len
+        self.engine._invalidate_export_cache()
+
+    @property
+    def target_pos(self) -> np.ndarray:
+        return self.engine.target_pos
+
+    @target_pos.setter
+    def target_pos(self, value) -> None:
+        arr = np.asarray(value, dtype=np.float32).reshape(-1)
+        if arr.size < 2:
+            raise ValueError("target_pos must contain at least two coordinates")
+        self.engine.target_pos = arr[:2].copy()
+        self.engine._invalidate_export_cache()
+
+    @property
+    def target_vel(self) -> np.ndarray:
+        return self.engine.target_vel
+
+    @target_vel.setter
+    def target_vel(self, value) -> None:
+        arr = np.asarray(value, dtype=np.float32).reshape(-1)
+        if arr.size < 2:
+            raise ValueError("target_vel must contain at least two coordinates")
+        self.engine.target_vel = arr[:2].copy()
+        self.engine._invalidate_export_cache()
+
+    @property
+    def finished(self) -> np.ndarray:
+        return self.engine.finished
+
+    @finished.setter
+    def finished(self, value) -> None:
+        self.engine.finished = np.asarray(value, dtype=bool).copy()
+        self.engine._invalidate_export_cache()
+
+    @property
+    def max_steps(self) -> int:
+        return int(self.engine.max_steps)
+
+    @max_steps.setter
+    def max_steps(self, value: int) -> None:
+        self.engine.max_steps = int(value)
+
+    @property
+    def goal_hold_steps(self) -> int:
+        return int(self.engine.goal_hold_steps)
+
+    @goal_hold_steps.setter
+    def goal_hold_steps(self, value: int) -> None:
+        self.engine.goal_hold_steps = int(value)
+
+    @property
+    def oracle_enabled(self) -> bool:
+        return bool(self.engine.oracle_enabled)
+
+    @oracle_enabled.setter
+    def oracle_enabled(self, value: bool) -> None:
+        self.engine.set_oracle_options(enabled=bool(value), recompute=False)
+
+    @property
+    def oracle_async(self) -> bool:
+        return bool(self.engine.oracle_async)
+
+    @oracle_async.setter
+    def oracle_async(self, value: bool) -> None:
+        self.engine.set_oracle_options(async_mode=bool(value), recompute=False)
+
+    @property
+    def oracle_cell_size(self) -> float:
+        return float(self.engine.oracle_cell_size)
+
+    @oracle_cell_size.setter
+    def oracle_cell_size(self, value: float) -> None:
+        self.engine.oracle_cell_size = float(value)
+        self.engine._invalidate_export_cache()
+
+    @property
+    def _optimal_len(self) -> np.ndarray:
+        return self.engine._optimal_len
+
+    @property
+    def _path_len(self) -> np.ndarray:
+        return self.engine._path_len
+
+    @property
+    def _threat_collisions(self) -> np.ndarray:
+        return self.engine._threat_collisions
+
+    @property
+    def _min_threat_dist(self) -> np.ndarray:
+        return self.engine._min_threat_dist
+
+    @property
+    def _death_step(self) -> np.ndarray:
+        return self.engine._death_step
+
+    @property
+    def _base_max_speed(self) -> float:
+        return float(self.engine._base_max_speed)
+
+    @_base_max_speed.setter
+    def _base_max_speed(self, value: float) -> None:
+        self.engine.set_runtime_defaults(max_speed=float(value))
+
+    @property
+    def _base_mass(self) -> float:
+        return float(self.engine._base_mass)
+
+    @_base_mass.setter
+    def _base_mass(self, value: float) -> None:
+        self.engine.set_runtime_defaults(mass=float(value))
+
+    @property
+    def _base_max_thrust(self) -> float:
+        return float(self.engine._base_max_thrust)
+
+    @_base_max_thrust.setter
+    def _base_max_thrust(self, value: float) -> None:
+        self.engine.set_runtime_defaults(max_thrust=float(value))
+
+    @property
+    def _base_drag_coeff(self) -> float:
+        return float(self.engine._base_drag_coeff)
+
+    @_base_drag_coeff.setter
+    def _base_drag_coeff(self, value: float) -> None:
+        self.engine.set_runtime_defaults(drag_coeff=float(value))
