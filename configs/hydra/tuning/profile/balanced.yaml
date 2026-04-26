@@ -1,0 +1,12 @@
+# @package _global_
+
+tuning_profile: balanced
+search_fidelity:
+  - label: warmup
+    scene_frac: 0.5
+    seed_frac: 0.5
+    max_steps_frac: 0.5
+  - label: full
+    scene_frac: 1.0
+    seed_frac: 1.0
+    max_steps_frac: 1.0

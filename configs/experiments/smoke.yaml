@@ -1,0 +1,11 @@
+name: smoke
+steps:
+  - name: eval_scenarios_smoke
+    entrypoint: scripts.eval.eval_scenarios
+    overrides:
+      - policy=baseline:random
+      - scenes=[scenarios/S0_sanity_no_threats.yaml]
+      - episodes=1
+      - seed=0
+      - oracle_enabled=true
+      - +oracle=fair

@@ -1,0 +1,24 @@
+# @package _global_
+
+policy: all
+n_episodes: 20
+max_steps: 800
+seed: 0
+out: ""
+out_dir: ""
+out_root: runs
+run_id: ""
+runs_dir: ""
+debug_metrics: false
+workers: 0
+episode_workers: 0
+mp_context: auto
+metrics_schema: configs/metrics_schema.yaml
+
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+  job_logging:
+    root:
+      level: INFO

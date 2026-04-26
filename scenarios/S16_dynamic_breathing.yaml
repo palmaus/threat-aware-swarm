@@ -1,0 +1,17 @@
+id: S16_dynamic_breathing
+seed: 0
+field_size: 100.0
+start_center: [10.0, 10.0]
+start_sigma: 2.0
+target_pos: [90.0, 90.0]
+dynamic_threats:
+  - type: linear
+    pos: [50.0, 50.0]
+    radius: 4.0
+    intensity: 0.12
+    speed: 2.5
+    direction: [1.0, 0.4]
+    radius_range: [3.0, 9.0]
+    radius_speed: 0.8
+    radius_mode: sine
+max_steps: 800

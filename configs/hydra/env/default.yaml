@@ -1,0 +1,44 @@
+max_steps: 600
+goal_radius: 3.0
+obs_schema_version: obs@1694:v5
+grid_width: 41
+grid_res: 1.0
+physics_ticks_per_action: 1
+obs_noise_target: 0.0
+obs_noise_vel: 0.0
+obs_noise_grid: 0.0
+control_mode: waypoint
+profile: full
+runtime_mode: full
+domain_randomization: false
+dr_max_speed_min: -1.0
+dr_max_speed_max: -1.0
+dr_drag_min: -1.0
+dr_drag_max: -1.0
+dr_max_accel_min: -1.0
+dr_max_accel_max: -1.0
+dr_mass_min: -1.0
+dr_mass_max: -1.0
+physics:
+  mass: 1.0
+  max_thrust: 8.0
+  drag_coeff: 0.5
+  collision_elasticity: 0.0
+wind:
+  enabled: true
+  ou_theta: 0.15
+  ou_sigma: 0.3
+  seed: null
+battery:
+  capacity: 100.0
+  drain_hover: 0.1
+  drain_thrust: 0.05
+forest:
+  enabled: false
+  count: 0
+  radius_min: 1.0
+  radius_max: 2.0
+  min_dist: 3.0
+oracle_visible_to_baselines: false
+oracle_visible_to_agents: false
+oracle_visibility: none

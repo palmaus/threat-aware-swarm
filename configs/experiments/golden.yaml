@@ -1,0 +1,13 @@
+name: golden
+steps:
+  - name: eval_scenarios_golden
+    entrypoint: scripts.eval.eval_scenarios
+    overrides:
+      - policy=baseline:potential_fields
+      - scenes=[scenarios/S0_sanity_no_threats.yaml,scenarios/S10_risk_vs_efficiency.yaml]
+      - episodes=1
+      - seed=0
+      - oracle_enabled=true
+      - +oracle=fair
+      - success_threshold=0.5
+      - check_golden=true

@@ -1,0 +1,26 @@
+run:
+  total_timesteps: 10000
+  eval_freq: 2000
+  n_eval_episodes: 2
+  checkpoint_freq: 0
+  no_eval: false
+
+env:
+  n_agents: 2
+  max_steps: 50
+  control_mode: waypoint
+  physics_ticks_per_action: 1
+  profile: lite
+
+vec:
+  num_vec_envs: 1
+  num_cpus: 1
+
+ppo:
+  use_rnn: false
+  n_steps: 128
+  batch_size: 128
+  n_epochs: 1
+  net_arch: [128, 64]
+  cnn_extractor: small
+  cnn_features_dim: 128

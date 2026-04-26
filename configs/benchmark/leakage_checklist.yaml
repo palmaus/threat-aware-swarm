@@ -1,0 +1,66 @@
+methods:
+  ppo:
+    uses_full_static_map: no
+    uses_oracle_dir: no
+    uses_future_threat_positions: no
+    uses_hidden_state: no
+    privileged_train_signal: none
+    privileged_inference_signal: none
+    allowed_main_benchmark: yes
+    notes: "Local dict-obs only."
+
+  baseline:potential_fields:
+    uses_full_static_map: no
+    uses_oracle_dir: conditional
+    uses_future_threat_positions: no
+    uses_hidden_state: no
+    privileged_train_signal: none
+    privileged_inference_signal: conditional
+    allowed_main_benchmark: yes
+    fair_required_flags:
+      - env.oracle_visibility=none
+    notes: "Uses oracle_dir if visible; disable for fair runs."
+
+  baseline:mpc_lite:
+    uses_full_static_map: no
+    uses_oracle_dir: conditional
+    uses_future_threat_positions: no
+    uses_hidden_state: no
+    privileged_train_signal: none
+    privileged_inference_signal: conditional
+    allowed_main_benchmark: yes
+    fair_required_flags:
+      - env.oracle_visibility=none
+    notes: "Oracle direction hint if visible; disable for fair runs."
+
+  baseline:astar_grid:
+    uses_full_static_map: conditional
+    uses_oracle_dir: conditional
+    uses_future_threat_positions: no
+    uses_hidden_state: no
+    privileged_train_signal: none
+    privileged_inference_signal: conditional
+    allowed_main_benchmark: yes
+    fair_required_flags:
+      - env.oracle_visibility=none
+    notes: "Memory-based planner; oracle_dir only if visible."
+
+  baseline:flow_field:
+    uses_full_static_map: yes
+    uses_oracle_dir: yes
+    uses_future_threat_positions: no
+    uses_hidden_state: no
+    privileged_train_signal: none
+    privileged_inference_signal: oracle_dir
+    allowed_main_benchmark: no
+    notes: "Map-aware reference; uses full static map via oracle_dir."
+
+  oracle:static_shortest_path:
+    uses_full_static_map: yes
+    uses_oracle_dir: yes
+    uses_future_threat_positions: yes
+    uses_hidden_state: yes
+    privileged_train_signal: eval_only
+    privileged_inference_signal: eval_only
+    allowed_main_benchmark: no
+    notes: "Eval-only reference for path_ratio lower bound."

@@ -1,0 +1,18 @@
+# @package _global_
+
+policy: baseline:potential_fields
+episodes: 20
+max_steps: 600
+seed: 0
+trace_episode: -1
+out_dir: ""
+out_root: runs
+run_id: ""
+
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+  job_logging:
+    root:
+      level: INFO

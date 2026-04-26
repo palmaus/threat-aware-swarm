@@ -1,0 +1,19 @@
+# @package _global_
+
+registry: ""
+run_dir: ""
+mode: both
+suite: ""
+n_episodes: 20
+max_steps: 600
+seed: 0
+deterministic: false
+goal_radius: 3.0
+
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+  job_logging:
+    root:
+      level: INFO

@@ -1,0 +1,16 @@
+# @package _global_
+
+tuning_profile: fast
+search_fidelity:
+  - label: warmup
+    scene_frac: 0.4
+    seed_frac: 0.34
+    max_steps_frac: 0.35
+  - label: focus
+    scene_frac: 0.7
+    seed_frac: 0.67
+    max_steps_frac: 0.6
+  - label: full
+    scene_frac: 1.0
+    seed_frac: 1.0
+    max_steps_frac: 1.0

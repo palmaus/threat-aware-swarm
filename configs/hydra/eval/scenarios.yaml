@@ -1,0 +1,34 @@
+# @package _global_
+
+policy: baseline:potential_fields
+model: ""
+mlflow_run_id: ""
+mlflow_artifact_path: "models/final.zip"
+mlflow_tracking_uri: ""
+deterministic: false
+episodes: 20
+max_steps: 600
+seed: 0
+success_threshold: 0.5
+scenes: []
+oracle_enabled: true
+out_dir: ""
+out_root: runs
+run_id: ""
+update_golden: false
+check_golden: false
+workers: 0
+export_gif: false
+gif_fps: 20
+gif_screen_size: 900
+gif_dir: ""
+metrics_schema: configs/metrics_schema.yaml
+lite_metrics: true
+
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+  job_logging:
+    root:
+      level: INFO

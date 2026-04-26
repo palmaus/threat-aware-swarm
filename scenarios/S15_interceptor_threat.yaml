@@ -1,0 +1,16 @@
+id: S15_interceptor_threat
+seed: 0
+field_size: 100.0
+start_center: [20.0, 20.0]
+start_sigma: 2.0
+target_pos: [80.0, 80.0]
+walls:
+  - [48.0, 20.0, 52.0, 80.0]
+dynamic_threats:
+  - type: chaser
+    pos: [50.0, 50.0]
+    radius: 6.0
+    intensity: 0.2
+    speed: 7.0
+    vision_radius: 90.0
+max_steps: 900

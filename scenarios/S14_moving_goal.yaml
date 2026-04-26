@@ -1,0 +1,14 @@
+id: S14_moving_goal
+seed: 0
+field_size: 100.0
+start_center: [20.0, 20.0]
+start_sigma: 2.0
+target_pos: [60.0, 60.0]
+target_motion:
+  type: circle
+  center: [60.0, 60.0]
+  radius: 15.0
+  angular_speed: 0.6
+  phase: 0.0
+threats: []
+max_steps: 1000

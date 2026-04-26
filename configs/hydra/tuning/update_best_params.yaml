@@ -1,0 +1,20 @@
+# @package _global_
+
+defaults:
+  - scoring: default
+  - _self_
+
+tune_dir: runs/tune
+out: configs/best_policy_params.json
+finish_min: 0.95
+alive_min: 0.95
+backup: true
+merge_existing: true
+
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+  job_logging:
+    root:
+      level: INFO

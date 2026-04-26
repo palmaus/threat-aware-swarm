@@ -1,0 +1,3 @@
+ppo:
+  cnn_extractor: advanced
+  cnn_features_dim: 512

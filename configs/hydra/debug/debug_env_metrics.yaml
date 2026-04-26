@@ -1,0 +1,18 @@
+# @package _global_
+
+max_steps: 200
+seed: 0
+episodes: 50
+out: ""
+out_dir: ""
+out_root: runs
+run_id: ""
+no_sanity: false
+
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+  job_logging:
+    root:
+      level: INFO

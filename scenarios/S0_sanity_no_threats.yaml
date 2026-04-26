@@ -1,0 +1,8 @@
+id: S0_sanity_no_threats
+seed: 0
+field_size: 100.0
+start_center: [10.0, 10.0]
+start_sigma: 2.0
+target_pos: [30.0, 30.0]
+threats: []
+max_steps: 200

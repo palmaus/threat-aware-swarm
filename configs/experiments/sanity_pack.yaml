@@ -1,0 +1,35 @@
+name: sanity_pack
+steps:
+  - name: sanity_smoke_train
+    entrypoint: scripts.train.trained_ppo
+    env:
+      TA_SKIP_AUTO_EVAL: "1"
+      TA_SKIP_VECS_MONITOR: "1"
+    overrides:
+      - run.total_timesteps=20000
+      - env.max_steps=50
+      - env.profile=lite
+      - vec.num_vec_envs=1
+      - vec.num_cpus=1
+      - ppo.n_steps=128
+      - ppo.batch_size=128
+      - ppo.n_epochs=1
+      - ppo.use_rnn=false
+      - curriculum.enabled=false
+      - run.no_eval=true
+      - run.eval_freq=100000000
+      - run.checkpoint_freq=100000000
+      - logging.tracking.mlflow.enabled=false
+      - logging.tracking.clearml.enabled=false
+      - logging.tracking.mlflow.cleanup_run_dir=false
+  - name: sanity_eval
+    entrypoint: scripts.eval.eval_scenarios
+    overrides:
+      - scenes=[preset:sanity]
+      - policy=baseline:potential_fields
+      - episodes=2
+      - seed=0
+      - oracle_enabled=true
+      - +oracle=fair
+  - name: sanity_report
+    entrypoint: scripts.analysis.sanity_report

@@ -1,0 +1,26 @@
+tracking:
+  log_every_steps: 2048
+  system_metrics:
+    enabled: false
+  mlflow:
+    enabled: true
+    tracking_uri: http://mlflow:5000
+    experiment: swarm
+    register_model_name: ""
+    log_tensorboard: true
+    cleanup_run_dir: true
+    tags: []
+  clearml:
+    enabled: false
+    project: Threat-Aware-Swarm
+    task_name: train_ppo
+    tags: []
+    output_uri: ""
+
+hydra:
+  run:
+    dir: ${run.out_dir}/run_${run.run_name}
+  output_subdir: .hydra
+  job_logging:
+    root:
+      level: INFO

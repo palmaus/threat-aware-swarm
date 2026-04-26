@@ -1,0 +1,32 @@
+axes:
+  environment:
+    - static
+    - semi_dynamic
+    - dynamic
+  information:
+    - local_only
+    - local_memory
+    - full_static_map
+  method_type:
+    - learned
+    - reactive
+    - global_planner
+    - oracle_reference
+
+groups:
+  fair:
+    description: "Main fair benchmark (no oracle input)."
+    methods:
+      - ppo
+      - baseline:potential_fields
+      - baseline:mpc_lite
+      - baseline:astar_grid
+  privileged:
+    description: "Privileged map‑aware references."
+    methods:
+      - baseline:flow_field
+      - baseline:astar_grid
+  oracle_only:
+    description: "Oracle references (eval‑only)."
+    methods:
+      - oracle:static_shortest_path

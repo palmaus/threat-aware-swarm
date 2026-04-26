@@ -1,0 +1,121 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt -c constraints.txt
+      - name: Ruff
+        run: python -m ruff check .
+
+  tests:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt -c constraints.txt
+      - name: Report key package versions
+        run: |
+          python - <<'PY'
+          import sys
+          import importlib
+          pkgs = [
+              "numpy",
+              "torch",
+              "pygame",
+              "stable_baselines3",
+              "fastapi",
+              "uvicorn",
+              "PIL",
+          ]
+          print("python", sys.version)
+          for name in pkgs:
+              try:
+                  mod = importlib.import_module(name)
+                  ver = getattr(mod, "__version__", "unknown")
+                  print(f"{name} {ver}")
+              except Exception as exc:
+                  print(f"{name} not available ({exc})")
+          PY
+      - name: Pytest unit
+        env:
+          SDL_VIDEODRIVER: dummy
+        run: pytest -q -m "not integration"
+
+      - name: Pytest integration
+        env:
+          TA_SKIP_AUTO_EVAL: '1'
+          SDL_VIDEODRIVER: dummy
+        run: pytest -q -m integration
+
+      - name: Scenarios smoke (baseline)
+        run: >
+          python -m scripts.eval.eval_scenarios
+          policy=baseline:potential_fields
+          episodes=2
+          success_threshold=0.3
+          scenes=[preset:sanity]
+          check_golden=false
+
+      - name: Scenarios golden check
+        env:
+          TA_SKIP_AUTO_EVAL: '1'
+        run: python -m scripts.experiments --spec configs/experiments/golden.yaml
+
+      - name: Experiment smoke spec
+        env:
+          TA_SKIP_AUTO_EVAL: '1'
+          SDL_VIDEODRIVER: dummy
+        run: python -m scripts.experiments --spec configs/experiments/smoke.yaml
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: ui_frontend/package-lock.json
+
+      - name: UI build (react)
+        run: |
+          cd ui_frontend
+          npm ci
+          npm run build
+          npm run smoke
+
+  tuning-stageb:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt -c constraints.txt
+      - name: Pytest tuning Stage-B smoke
+        env:
+          TA_SKIP_AUTO_EVAL: '1'
+          SDL_VIDEODRIVER: dummy
+        run: pytest -q -m tuning_stageb --run-tuning-stageb

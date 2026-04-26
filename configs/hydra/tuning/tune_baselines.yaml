@@ -1,0 +1,78 @@
+# @package _global_
+
+defaults:
+  - scoring: default
+  - /tuning/profile: balanced
+  - /env: default
+  - /tuning/step_budget: default
+  - _self_
+
+policy: [all]
+tuning_profile: balanced
+step_budget_name: default
+search_fidelity: []
+policy_search_fidelity: {}
+method: grid
+samples: 50
+max_trials: 200
+trials: 50
+pruner: none
+n_jobs: 1
+episodes: 5
+episodes_eval: 30
+stage_b: false
+topk: 5
+min_prune_scenes: 2
+skip_empty: false
+seed: 0
+success_threshold: 0.5
+finish_min: 0.7
+alive_min: 0.7
+aggregate_by_family: true
+gate_finish_min: -1.0
+gate_alive_min: -1.0
+gate_max_risk: -1.0
+scenes: []
+search_scenes: []
+holdout_scenes: []
+benchmark_scenes: []
+ood_scenes: []
+space: configs/hydra/tuning/spaces/mpc_lite.yaml
+out_dir: ""
+out_root: runs
+run_id: ""
+out: ""
+save_scenes: false
+optuna_db: ""
+study_name: ""
+resume: false
+lite_metrics: true
+eval_cache: true
+cache_dir: ""
+cache_version: v1
+cache_cleanup: true
+cache_ttl_days: 14
+persistent_workers: true
+policy_cache_size: 8
+parallel_debug: false
+parallel_trace: false
+parallel_trace_path: ""
+parallel_assert_ownership: true
+allow_unsafe_parallel_optuna: false
+allow_unsafe_persistent_runtime: false
+parallel_max_workers: 0
+parallel_reserve_cpus: 2
+parallel_memory_fraction: 0.7
+parallel_max_trials_per_worker: 0
+search_seeds: []
+holdout_seeds: []
+report_seeds: []
+information_regime: fair
+
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+  job_logging:
+    root:
+      level: INFO

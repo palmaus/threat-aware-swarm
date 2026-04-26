@@ -1,0 +1,35 @@
+curriculum:
+  ema_alpha: 0.05
+  default:
+    stages:
+      - name: 4_target_pursuit
+        params:
+          max_steps: 1000
+          target_motion:
+            type: "linear"
+            angle: "random"
+            speed: 1.5
+          target_motion_speed_start: 1.5
+          target_motion_speed_end: 1.5
+          target_motion_speed_steps: 500000
+          reward:
+            w_finish_bonus: 2000.0
+        threshold: 0.65
+        min_steps: 200000
+      - name: 5_full_dynamic
+        params:
+          target_motion_prob: 0.5
+          target_motion:
+            type: "linear"
+            angle: "random"
+            speed: 1.5
+          random_threat_mode: "mixed"
+          random_threat_dynamic_frac: 0.6
+          random_threat_count_min: 3
+          random_threat_count_max: 5
+          random_threat_speed_min: 1.0
+          random_threat_speed_max: 3.0
+          reward:
+            w_finish_bonus: 2000.0
+        threshold: 0.6
+        min_steps: 200000

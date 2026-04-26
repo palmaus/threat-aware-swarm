@@ -1,0 +1,22 @@
+version: metrics@v1
+metrics:
+  - success_rate
+  - finished_frac_end
+  - alive_frac_end
+  - deaths_mean
+  - risk_integral_all
+  - risk_integral_alive
+  - time_to_goal_mean
+  - collision_like
+  - episode_len_mean
+  - path_ratio
+  - action_smoothness
+  - energy_efficiency
+  - safety_score
+  - cost_progress
+  - cost_risk
+  - cost_wall
+  - cost_collision
+  - cost_energy
+  - cost_jerk
+  - cost_time

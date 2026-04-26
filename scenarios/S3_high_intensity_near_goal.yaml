@@ -1,0 +1,12 @@
+id: S3_high_intensity_near_goal
+seed: 0
+field_size: 100.0
+start_center: [10.0, 10.0]
+start_sigma: 2.0
+target_pos: [94.2, 94.2]
+threats:
+  - pos: [85.0, 85.0]
+    radius: 10.0
+    intensity: 0.25
+    oracle_block: true
+max_steps: 600

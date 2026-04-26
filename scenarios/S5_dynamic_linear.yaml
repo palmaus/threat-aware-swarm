@@ -1,0 +1,14 @@
+id: S5_dynamic_linear
+seed: 0
+field_size: 100.0
+start_center: [10.0, 10.0]
+start_sigma: 2.0
+target_pos: [90.0, 90.0]
+dynamic_threats:
+  - type: linear
+    pos: [50.0, 50.0]
+    radius: 8.0
+    intensity: 0.10
+    speed: 3.0
+    direction: [1.0, 0.0]
+max_steps: 600

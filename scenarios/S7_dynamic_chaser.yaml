@@ -1,0 +1,14 @@
+id: S7_dynamic_chaser
+seed: 0
+field_size: 100.0
+start_center: [10.0, 10.0]
+start_sigma: 2.0
+target_pos: [90.0, 90.0]
+dynamic_threats:
+  - type: chaser
+    pos: [50.0, 50.0]
+    radius: 8.0
+    intensity: 0.12
+    speed: 1.5
+    vision_radius: 40.0
+max_steps: 600

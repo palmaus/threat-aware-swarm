@@ -1,0 +1,17 @@
+# @package _global_
+
+model_path: ""
+out_dir: "runs/exports"
+out_name: ""
+opset: 17
+quantize_int8: true
+dynamic_axes: true
+device: "cpu"
+
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+  job_logging:
+    root:
+      level: INFO

@@ -1,0 +1,20 @@
+name: benchmark_privileged_dynamic
+steps:
+  - name: privileged_dynamic_flow_field
+    entrypoint: scripts.analysis.eval_protocol
+    overrides:
+      - scenes=[preset:dynamic]
+      - seeds=[0,1,2,3,4]
+      - episodes_per_seed=1
+      - policy=baseline:flow_field
+      - oracle_enabled=true
+      - +oracle=privileged
+  - name: privileged_dynamic_astar
+    entrypoint: scripts.analysis.eval_protocol
+    overrides:
+      - scenes=[preset:dynamic]
+      - seeds=[0,1,2,3,4]
+      - episodes_per_seed=1
+      - policy=baseline:astar_grid
+      - oracle_enabled=true
+      - +oracle=privileged

@@ -1,0 +1,7 @@
+w_finished: 1200000.0
+w_alive: 150000.0
+w_deaths: 50000.0
+w_risk: 5000.0
+w_time: 0.5
+penalty_finish: 1000000000.0
+penalty_alive: 100000000.0

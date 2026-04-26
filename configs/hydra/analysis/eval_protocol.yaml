@@ -1,0 +1,30 @@
+# @package _global_
+
+defaults:
+  - _self_
+
+env: {}
+policy: baseline:potential_fields
+model: null
+scenes:
+  - preset:sanity
+seeds: [0, 1, 2, 3, 4]
+episodes_per_seed: 1
+success_threshold: 0.5
+max_steps: 600
+goal_radius: 3.0
+oracle_enabled: false
+deterministic: true
+out_dir: ""
+out_name: ""
+metrics_schema: configs/metrics_schema.yaml
+strict_schema: true
+logging: {}
+
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+  job_logging:
+    root:
+      level: INFO

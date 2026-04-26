@@ -1,0 +1,6 @@
+# @package _global_
+
+step_budget_name: static
+
+env:
+  max_steps: 900

@@ -1,0 +1,6 @@
+policies:
+  baseline:mpc_lite:
+    accel_levels:
+      - [1.0]
+      - [0.5, 1.0]
+      - [0.35, 0.7, 1.0]

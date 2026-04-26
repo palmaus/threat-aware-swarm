@@ -1,0 +1,4 @@
+env:
+  control_mode: waypoint
+  physics_ticks_per_action: 4
+

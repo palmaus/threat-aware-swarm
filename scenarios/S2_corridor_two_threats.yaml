@@ -1,0 +1,16 @@
+id: S2_corridor_two_threats
+seed: 0
+field_size: 100.0
+start_center: [10.0, 10.0]
+start_sigma: 2.0
+target_pos: [90.0, 90.0]
+threats:
+  - pos: [45.0, 55.0]
+    radius: 10.0
+    intensity: 0.10
+    oracle_block: true
+  - pos: [55.0, 45.0]
+    radius: 10.0
+    intensity: 0.10
+    oracle_block: true
+max_steps: 600

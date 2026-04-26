@@ -1,0 +1,21 @@
+# @package _global_
+
+defaults:
+  - _self_
+
+env: {}
+steps: 500
+agents: 1
+max_steps: 200
+goal_radius: 3.0
+seed: 0
+out_dir: ""
+out_root: runs
+
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+  job_logging:
+    root:
+      level: INFO

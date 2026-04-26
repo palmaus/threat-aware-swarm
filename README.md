@@ -1,115 +1,321 @@
-# Threat-aware Swarm — MARL-симулятор роя БПЛА с угрозами
+# Threat-Aware Swarm
 
-Этот репозиторий — пет-проект по multi-agent reinforcement learning (MARL).
-Идея проекта в следующем: рой дронов учится долетать до цели, выживать и вести себя как рой (не слипаться в одну вереницу), когда на поле есть зоны угроз.
+`Threat-Aware Swarm` — исследовательский pet-проект про мультиагентную навигацию в 2D-среде с частичной наблюдаемостью, динамическими угрозами и непрерывным управлением.
 
-Стек: PettingZoo (ParallelEnv) + SuperSuit + Stable-Baselines3 (PPO), с parameter sharing (одна политика на всех агентов).
+Это не просто обученный PPO-агент. Репозиторий собран как полноценная экспериментальная система:
+- собственная среда на PettingZoo с force-based физикой;
+- сильные baseline-планировщики (`A*`, `MPC-lite`, `Potential Fields`, `Flow Field`);
+- стек PPO / RecurrentPPO (`AdvancedSwarmCNN` + LSTM);
+- React UI в стиле Mission Control;
+- формализованный benchmark, reproducibility guardrails, tuning и release-отчёты.
 
----
+## За минуту
 
-## Что умеет проект
+### Какую задачу решает проект
+Группа агентов должна дойти до цели в общем 2D-мире, где одновременно есть:
+- локальные ограниченные наблюдения;
+- динамические угрозы и статические препятствия;
+- drag, wind, инерция и ограничения по ускорению;
+- конфликт между безопасностью, скоростью и длиной пути.
 
-Это симулятор роя дронов в 2D-среде: есть ограниченное поле, заданные границы и статические (позже будут и динамические) угрозы. У каждой угрозы свой радиус действия и вероятность «смерти» агента, если он находится внутри зоны поражения на очередном тике.
+### Что здесь реализовано
+- swarm-среда на `PettingZoo ParallelEnv`;
+- `Dict-obs only` контракт `obs@1694:v5`;
+- единый control-loop через `waypoint` и общий low-level controller;
+- baseline'ы уровня planning/control, а не только простые эвристики;
+- PPO / RecurrentPPO для честного сравнения с классическими методами;
+- UI для визуализации, отладки и демо;
+- инфраструктура для train/eval/tuning/reporting.
 
-Внутри среды работает рой из `N` агентов, которые обучаются **общей политике** на PPO — то есть все дроны действуют по одному и тому же «мозгу», просто в разных состояниях.
+### Почему проект сильнее типичного RL pet-проекта
+- PPO сравнивается не с игрушечными baseline'ами, а с реальными планировщиками.
+- Benchmark policy формально разделяет `fair`, `privileged` и `oracle-only` режимы.
+- UI, perf-профили и release bundle являются частью инженерной системы, а не довеском.
+- В проекте есть не только обучение, но и воспроизводимый evaluation/tuning контур.
 
-Система наград сделана так, чтобы поощрять движение к цели и удержание в целевой зоне (с дополнительным стимулом дожиматься ближе к центру), но при этом учитывать риск от угроз. За гибель агента предусмотрен отдельный штраф, а ещё есть наказание за слишком тесную близость к соседям — правда, в зоне цели этот штраф отключается, чтобы финальный «сбор» роя не превращался в проблему.
+## Что именно здесь интересно
 
-Для наблюдения за прогрессом всё логируется в TensorBoard: стандартные метрики PPO (train/rollout) дополняются swarm-метриками вроде количества живых, дошедших до цели, находящихся в goal-зоне, дистанций и прочего.
+### Исследовательская часть
+- Навигация в среде с угрозами и частичной наблюдаемостью.
+- Сравнение learned policy с planner-heavy baseline'ами.
+- Разделение честного benchmark и privileged reference-путей.
+- Отдельные OOD и robustness-пайплайны.
 
-Проект также включает набор готовых скриптов: для обучения модели (`scripts/trained_ppo.py`), для ведения реестра моделей и массовой оценки по нему (`scripts/index_models.py`, `scripts/eval_models.py`), а также для визуализации и демонстрации поведения агентов (`viz/run_trained_pz.py`, `viz/run_demo.py`).
+### Инженерная часть
+- Hydra как единая точка входа для train/eval/tuning.
+- MLflow как основной tracker и хранилище артефактов.
+- React-only UI runtime с `telemetry@v2`.
+- Release-friendly benchmark pipeline, metric manifests, config audit.
+- Fixed-step perf protocol для baseline/env regression-check.
 
----
+## Витрина для ревьюера
 
-## Установка
+Если нужно быстро понять, что сделано, открывай в таком порядке:
+1. `docs/showcase.md`
+2. `docs/benchmark_policy.md`
+3. `docs/ROADMAP.md`
+4. `AGENTS.md`
+5. UI через `docker compose up web`
 
-Рекомендуемый Python: **3.10+**.
+## Системный обзор
 
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -U pip
-pip install -r requirements.txt
-```
+### Архитектура runtime
+![System architecture](docs/images/system_architecture.png)
 
-Если запускаете скрипты из корня репозитория, удобно добавлять `PYTHONPATH=.`:
+### Поток экспериментов и артефактов
+![MLOps pipeline](docs/images/mlops_pipeline.png)
 
-```bash
-PYTHONPATH=. python -c "import env; print('ok')"
-```
+## Основные подсистемы
 
----
+| Подсистема | Что есть сейчас |
+| --- | --- |
+| Среда | PettingZoo ParallelEnv, Physics 2.0, wind, drag, battery, SDF-стены, dynamic threats |
+| Наблюдение | только `Dict`-контракт `obs@1694:v5`, локальная сетка `41x41` |
+| Управление | `Perception -> Planner -> Controller`, единый `waypoint`-режим |
+| Бейзлайны | `A*`, `MPC-lite`, `Potential Fields`, `Flow Field`, Oracle reference |
+| RL | `AdvancedSwarmCNN` + `RecurrentPPO` |
+| UI | React Mission Control, compare/demo/research, timeline, charts, scene editor, GIF export |
+| Benchmark | `fair / privileged / oracle-only`, OOD pack, leakage guardrails, metric semantics |
+| Tuning | split protocol, holdout/OOD validation, eval cache, profiles `fast|balanced|deep` |
+
+## Сильные стороны проекта
+
+### 1. Сильный baseline-слой
+Здесь есть полноценные planning baseline'ы. Это делает сравнение с PPO содержательным, а не декоративным.
+
+### 2. Честный benchmark формализован
+Репозиторий явно разводит:
+- `fair` методы;
+- `privileged` map-aware references;
+- `oracle-only` сущности для нормировки метрик.
+
+### 3. UI — часть системы
+Веб-интерфейс нужен не только для картинки. Он используется для:
+- compare mode;
+- визуализации телеметрии и timeline;
+- scene editing;
+- attention overlays;
+- GIF export;
+- демонстрации baseline/RL-поведения.
+
+### 4. Среда богаче обычного gridworld
+Агент действует не в примитивной дискретной карте, а через общий low-level controller под физическими ограничениями и риском.
+
+### 5. Репозиторий операционен
+Есть воспроизводимый путь для:
+- обучения;
+- benchmark/eval;
+- OOD-проверок;
+- tuning;
+- построения release-отчётов.
 
 ## Быстрый старт
 
-### Обучение PPO (основной способ)
-
-Главный скрипт обучения — `scripts/trained_ppo.py`.
-
-Пример (команда из корня репо):
-
+### 1. Собрать runtime
 ```bash
-PYTHONPATH=. python scripts/trained_ppo.py \
-  --run_dir runs/run_$(date +%Y%m%d_%H%M%S) \
-  --timesteps 6000000 \
-  --save_every 2000000 \
-  --eval_every 20000 \
-  --n_eval_episodes 20 \
-  --max_steps 600
+make warm
 ```
 
-Что получится:
-- `runs/<run_id>/models/` — чекпоинты и `best_by_finished.zip`
-- `runs/<run_id>/tb/` — TensorBoard логи
-- `runs/<run_id>/meta/run.json` — метаданные запуска
-
-TensorBoard:
-
+### 2. Поднять UI и MLflow
 ```bash
-tensorboard --logdir runs
+docker compose up -d web mlflow
 ```
 
-### 3) Визуализация обученной модели
+Открыть:
+- UI: `http://localhost:8000`
+- MLflow: `http://localhost:5000`
 
-Обычно запускаю так:
-
+### 3. Прогнать быстрый baseline-eval
 ```bash
-PYTHONPATH=. python -m viz.run_trained_pz
+docker compose run --rm trainer python -m scripts.eval.eval_scenarios \
+  policy=baseline:potential_fields \
+  scenes=[preset:sanity] \
+  episodes=2
 ```
 
-Внутри `viz/run_trained_pz.py` выбирается модель (по умолчанию — `best_by_finished` из последнего прогона).
-Внутри скрипта есть аргумент `--model`, можно указать путь к конкретной модели прямо в командной строке:
-
+### 4. Запустить обучение PPO
 ```bash
-PYTHONPATH=. python -m viz.run_trained_pz --model runs/run_20260118_203327/models/best_by_finished.zip
+docker compose run --rm trainer python -m scripts.train.trained_ppo \
+  experiment=ppo_waypoint
 ```
 
----
-
-## Как сравниваются модели
-
-1) Сформировать реестр:
-
+### 5. Прогнать sanity-пакет
 ```bash
-PYTHONPATH=. python scripts/index_models.py --scan runs --out model_registry.csv --rewrite
+make sanity-pack
 ```
 
-2) Прогнать оценку (например, 20 эпизодов, фиксированный и случайный seed):
+## Типовые сценарии работы
 
+### UI / интерактивное демо
 ```bash
-PYTHONPATH=. python scripts/eval_models.py --registry model_registry.csv --mode both --n-episodes 20 --max-steps 600 --deterministic --seed 0
+docker compose up web
 ```
 
-В `model_registry.csv` добавятся колонки с результатами и ошибками (если какие-то модели несовместимы).
+Если менялся `ui_frontend/`:
+```bash
+make ui-build
+```
 
----
+### Benchmark по baseline'ам
+```bash
+docker compose run --rm trainer python -m scripts.bench.benchmark_baselines \
+  policy=all \
+  n_episodes=5
+```
 
-## Заметки по воспроизводимости
+### Полный evaluation bundle
+```bash
+make full-eval
+```
 
-В проекте специально хранятся метаданные каждого прогона (`runs/<id>/meta/run.json`), потому что по одному TensorBoard потом тяжело восстановить:
-- какими были гиперпараметры;
-- какая версия среды была;
-- какие флаги были включены.
+Этот таргет запускает:
+- fair benchmark;
+- privileged benchmark;
+- OOD evaluation;
+- demo-pack;
+- compare/demo/story reports.
 
-Notebook’ (`notebooks/`) используется как лаборатория: там графики, запуски прогонов.
-Скриптом для запуска обучения является `scripts/trained_ppo.py`.
+### Release bundle для benchmark-результатов
+```bash
+make benchmark-release \
+  RELEASE_INPUTS="runs/bench/<fair_run> runs/bench/<dynamic_run>" \
+  RELEASE_LABELS="fair-static fair-dynamic"
+```
+
+На выходе:
+- `benchmark_release.json`
+- `benchmark_release.md`
+- `leaderboard.csv`
+
+### Запуск experiment spec
+```bash
+make experiment EXPERIMENT_SPEC=configs/experiments/smoke.yaml
+```
+
+### Demo-артефакты
+```bash
+make demo-pack
+make demo-report
+make demo-story
+```
+
+### Тюнинг baseline'ов
+```bash
+# дешёвый search-профиль
+make tune-fast TUNE_OVERRIDES="policy=[all] scenes=[preset:static] tuning/step_budget=static"
+
+# основной тюнинг с holdout-проверкой
+make tune-balanced TUNE_OVERRIDES="policy=[all] method=optuna trials=80 n_jobs=4 pruner=asha scenes=[preset:static] tuning/step_budget=static stage_b=true topk=5"
+```
+
+Для длинных семейств сцен используй step-budget пресеты:
+- `tuning/step_budget=static` → `900` шагов;
+- `tuning/step_budget=dynamic` → `1000` шагов;
+- `tuning/step_budget=long` → `1600` шагов.
+
+Важно:
+- для `method=optuna n_jobs>1` тюнер использует безопасный process-backend:
+  главный процесс держит study/storage, а trial evaluation идёт в `spawn` worker'ах;
+- debug-only thread path оставлен только для controlled repro через `parallel_debug`.
+
+Тяжёлый `stage_b` smoke вынесен из обычного `pytest` и запускается отдельно:
+```bash
+make test-tuning-stageb
+```
+
+### Fixed-step профилирование производительности
+```bash
+make profile-baselines
+make perf-gate
+```
+
+## Политика benchmark
+
+Проект использует три класса методов:
+
+| Категория | Смысл |
+| --- | --- |
+| `fair` | метод видит только информацию, реально доступную агенту |
+| `privileged` | метод получает полную карту или другой дополнительный сигнал |
+| `oracle-only` | эталон для нормировки и интерпретации, а не участник основного leaderboard |
+
+Это важно, потому что проект задуман как честный benchmark, а не как витрина с несопоставимыми методами.
+
+См.:
+- `docs/benchmark_policy.md`
+- `docs/benchmarks/leaderboards.md`
+- `docs/benchmarks/metric_semantics.md`
+
+## Структура репозитория
+
+```text
+baselines/      baseline-политики, planner'ы и контроллеры
+common/         общие контракты, visibility-правила и physics helper'ы
+env/            среда, physics, observer, oracle, reward, scene runtime
+configs/        Hydra-конфиги, experiment specs, benchmark/tuning policy
+scripts/        train / eval / tuning / analysis / perf / debug entrypoints
+scenarios/      статические, динамические, OOD и пользовательские сцены
+ui/             FastAPI backend для web UI
+ui_frontend/    React frontend
+models/         сетевые модули и метаданные моделей
+runs/           локальные runtime-артефакты (рабочий буфер)
+docs/           benchmark, infra, reference, logs, perf, showcase
+tests/          unit / integration / invariant tests
+```
+
+## Карта документации
+
+### Начать отсюда
+- `docs/README.md` — индекс документации
+- `docs/showcase.md` — короткая презентационная страница
+- `docs/ROADMAP.md` — текущее состояние и завершённые workstream'ы
+- `AGENTS.md` — краткая runtime-память для разработчика/агента
+
+### Benchmark и оценка
+- `docs/benchmark_policy.md`
+- `docs/benchmarks/leaderboards.md`
+- `docs/benchmarks/metric_semantics.md`
+
+### Runtime и инфраструктура
+- `docs/infra/docker.md`
+- `docs/infra/hydra.md`
+- `docs/infra/mlflow.md`
+- `docs/infra/ui.md`
+
+### Справка
+- `docs/reference/env_schema.md`
+- `docs/reference/agent_playbook.md`
+- `docs/reference/diagnostics.md`
+- `docs/reference/model_storage.md`
+- `docs/reference/tech_debt.md`
+
+### Журналы
+- `docs/logs/training_log.md`
+- `docs/logs/research_log.md`
+
+## Текущие runtime-дефолты
+
+| Тема | Значение |
+| --- | --- |
+| Наблюдение | `obs@1694:v5` |
+| Управление | `waypoint` |
+| PPO-стек | `AdvancedSwarmCNN` + `RecurrentPPO` |
+| UI | только React runtime |
+| Tracking | MLflow включён по умолчанию |
+| Tuning profile | `balanced` |
+| Benchmark policy | по умолчанию fair, oracle скрыт |
+
+## Что стоит посмотреть в первую очередь
+
+Если задача — быстро оценить инженерный уровень проекта:
+1. пролистать этот `README.md`;
+2. открыть `docs/benchmark_policy.md`;
+3. открыть `docs/ROADMAP.md`;
+4. поднять UI через `docker compose up web`;
+5. прогнать `make sanity-pack` или один baseline benchmark.
+
+Этого достаточно, чтобы увидеть и исследовательскую, и инженерную сторону репозитория.
+
+## Лицензия
+
+MIT, если в конкретной подпапке не указано иное.

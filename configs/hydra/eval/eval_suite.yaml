@@ -1,0 +1,13 @@
+suites:
+  fixed_20:
+    mode: fixed
+    n_episodes: 20
+    max_steps: 600
+    goal_radius: 3.0
+    seed: 0
+  random_100:
+    mode: random
+    n_episodes: 100
+    max_steps: 600
+    goal_radius: 3.0
+    seed: 0

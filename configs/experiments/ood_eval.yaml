@@ -1,0 +1,11 @@
+name: ood_eval
+steps:
+  - name: eval_protocol_ood
+    entrypoint: scripts.analysis.eval_protocol
+    overrides:
+      - scenes=[preset:ood]
+      - seeds=[0,1,2,3,4]
+      - episodes_per_seed=1
+      - policy=baseline:potential_fields
+      - oracle_enabled=true
+      - +oracle=fair

@@ -1,0 +1,127 @@
+services:
+  trainer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    image: threat-aware-swarm:cpu
+    user: "${UID:-1000}:${GID:-1000}"
+    environment:
+      PYTHONPATH: /app
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+    env_file:
+      - .env
+    volumes:
+      - ./:/app
+      - ./runs:/app/runs
+      - ./models:/app/models
+      - ./mlruns:/app/mlruns
+      - ./mlruns:/mlruns
+      - cache:/app/.cache
+    depends_on:
+      - mlflow
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.12.1
+    user: "${UID:-1000}:${GID:-1000}"
+    command: >
+      mlflow server
+      --backend-store-uri /mlruns
+      --default-artifact-root /mlruns
+      --host 0.0.0.0
+      --port 5000
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlruns:/mlruns
+
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    image: threat-aware-swarm:jupyter
+    command: >
+      bash -lc "pip install --no-cache-dir jupyterlab &&
+      jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root"
+    user: "${UID:-1000}:${GID:-1000}"
+    environment:
+      PYTHONPATH: /app
+    env_file:
+      - .env
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./:/app
+      - ./runs:/app/runs
+      - ./models:/app/models
+      - ./mlruns:/app/mlruns
+      - cache:/app/.cache
+
+  tensorboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    image: threat-aware-swarm:tb
+    command: >
+      bash -lc "tensorboard --logdir /app/runs --host 0.0.0.0 --port 6006"
+    user: "${UID:-1000}:${GID:-1000}"
+    environment:
+      PYTHONPATH: /app
+    ports:
+      - "6006:6006"
+    volumes:
+      - ./:/app
+      - ./runs:/app/runs
+      - ./models:/app/models
+      - cache:/app/.cache
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    image: threat-aware-swarm:web
+    user: "${UID:-1000}:${GID:-1000}"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app
+      - ./runs:/app/runs
+      - cache:/app/.cache
+    environment:
+      SDL_VIDEODRIVER: dummy
+      MPLBACKEND: Agg
+      PYTHONPATH: /app
+    command: python3 -m ui.web_server host=0.0.0.0 port=8000
+
+  cli:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    image: threat-aware-swarm:cli
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ./:/app
+      - ./runs:/app/runs
+      - cache:/app/.cache
+    environment:
+      SDL_VIDEODRIVER: dummy
+      MPLBACKEND: Agg
+      PYTHONPATH: /app
+    entrypoint: bash
+
+volumes:
+  cache:

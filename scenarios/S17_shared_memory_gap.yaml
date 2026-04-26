@@ -1,0 +1,13 @@
+id: S17_shared_memory_gap
+seed: 0
+field_size: 100.0
+start_centers:
+  - [15.0, 20.0]
+  - [15.0, 80.0]
+start_sigma: 2.0
+target_pos: [85.0, 50.0]
+walls:
+  - [45.0, 0.0, 48.0, 65.0]
+  - [45.0, 75.0, 48.0, 100.0]
+threats: []
+max_steps: 1200

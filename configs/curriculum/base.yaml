@@ -1,0 +1,148 @@
+curriculum:
+  ema_alpha: 0.05
+  default:
+    stages:
+      - name: 0_warmup
+        params:
+          max_steps: 600
+          wall_count: 0
+          random_threat_mode: "none"
+          random_threat_count_min: 0
+          random_threat_count_max: 0
+          min_start_target_dist: 15.0
+          target_pos_min: [65.0, 65.0]
+          target_pos_max: [95.0, 95.0]
+          start_pos_min: [5.0, 5.0]
+          start_pos_max: [35.0, 35.0]
+          goal_radius: 6.0
+          goal_radius_start: 6.0
+          goal_radius_base: 6.0
+          goal_radius_decay_steps: 800000
+          goal_hold_steps: 2
+          reward:
+            w_progress: 2.0
+            w_in_goal_step: 5.0
+            w_center: 10.0
+            w_finish_bonus: 1000.0
+            w_speed: 0.1
+            brake_dist: 15.0
+        threshold: 0.7
+        min_steps: 200000
+      - name: 1_long_range
+        params:
+          max_steps: 800
+          goal_radius: 4.0
+          goal_hold_steps: 4
+          goal_radius_start: 4.0
+          goal_radius_base: 4.0
+          goal_radius_decay_steps: 500000
+          min_start_target_dist: 50.0
+          target_pos_min: [5.0, 5.0]
+          target_pos_max: [95.0, 95.0]
+          start_pos_min: [5.0, 5.0]
+          start_pos_max: [95.0, 95.0]
+          reward:
+            w_finish_bonus: 2000.0
+        threshold: 0.8
+        min_steps: 300000
+      - name: 2_geometry
+        params:
+          max_steps: 800
+          wall_count: 5
+          wall_size_min: 10.0
+          wall_size_max: 25.0
+          goal_hold_steps: 4
+          min_start_target_dist: 40.0
+          reward:
+            w_finish_bonus: 2000.0
+            w_wall: 20.0
+        threshold: 0.7
+        min_steps: 200000
+      - name: 3_static_threats
+        params:
+          random_threat_mode: "static"
+          random_threat_count_min: 3
+          random_threat_count_max: 6
+          reward:
+            w_finish_bonus: 2000.0
+            w_risk: 5.0
+        threshold: 0.7
+        min_steps: 200000
+      - name: 4_target_pursuit
+        params:
+          max_steps: 1000
+          target_motion:
+            type: "linear"
+            angle: "random"
+            speed: 1.5
+          target_motion_speed_start: 1.5
+          target_motion_speed_end: 1.5
+          target_motion_speed_steps: 500000
+          reward:
+            w_finish_bonus: 2000.0
+        threshold: 0.65
+        min_steps: 200000
+      - name: 5_full_dynamic
+        params:
+          target_motion_prob: 0.5
+          target_motion:
+            type: "linear"
+            angle: "random"
+            speed: 1.5
+          random_threat_mode: "mixed"
+          random_threat_dynamic_frac: 0.6
+          random_threat_count_min: 3
+          random_threat_count_max: 5
+          random_threat_speed_min: 1.0
+          random_threat_speed_max: 3.0
+          reward:
+            w_finish_bonus: 2000.0
+        threshold: 0.6
+        min_steps: 200000
+  adr_alp:
+    adr:
+      enabled: true
+      metric: "swarm/finished_frac"
+      threshold: 0.85
+      interval_steps: 50000
+      step: 0.05
+      params:
+        drag_coeff:
+          base: 0.05
+          min: 0.01
+          max: 0.2
+        max_accel:
+          base: 1.0
+          min: 0.6
+          max: 1.6
+        obs_noise_vel:
+          base: 0.0
+          min: 0.0
+          max: 0.2
+        obs_noise_target:
+          base: 0.0
+          min: 0.0
+          max: 0.2
+    alp:
+      enabled: true
+      metric: "swarm/finished_frac"
+      interval_steps: 50000
+      epsilon: 0.1
+      seed: 0
+      buckets:
+        - params:
+            random_threat_count_min: 1
+            random_threat_count_max: 3
+            random_threat_speed_min: 1.0
+            random_threat_speed_max: 2.0
+        - params:
+            random_threat_count_min: 2
+            random_threat_count_max: 5
+            random_threat_speed_min: 1.5
+            random_threat_speed_max: 3.0
+        - params:
+            random_threat_count_min: 3
+            random_threat_count_max: 6
+            random_threat_speed_min: 2.0
+            random_threat_speed_max: 4.0
+    stages: ${curriculum.default.stages}

@@ -1,0 +1,17 @@
+learning_rate: 1e-4
+n_steps: 2048
+batch_size: 2048
+n_epochs: 10
+gamma: 0.99
+gae_lambda: 0.95
+ent_coef: 0.05
+vf_coef: 0.5
+clip_range: 0.3
+target_kl: 0.05
+net_arch: [512, 256, 128]
+log_std_init: -1.0
+cnn_features_dim: 512
+cnn_extractor: advanced
+use_rnn: true
+lstm_hidden_size: 256
+enable_critic_lstm: true

@@ -1,0 +1,9 @@
+# @package _global_
+defaults:
+  - override /curriculum: phase01
+
+ppo:
+  ent_coef: 0.05
+  learning_rate: 3e-4
+  clip_range: 0.3
+  target_kl: 0.08

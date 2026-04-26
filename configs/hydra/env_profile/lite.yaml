@@ -1,0 +1,10 @@
+# @package _global_
+
+env:
+  profile: lite
+  wind:
+    enabled: false
+  battery:
+    capacity: 0.0
+    drain_hover: 0.0
+    drain_thrust: 0.0

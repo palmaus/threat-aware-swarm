@@ -1,0 +1,13 @@
+# @package _global_
+
+scan: []
+out: runs/index/model_registry.csv
+rewrite: false
+
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+  job_logging:
+    root:
+      level: INFO

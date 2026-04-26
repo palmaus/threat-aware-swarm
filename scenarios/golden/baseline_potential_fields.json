@@ -1,0 +1,42 @@
+{
+  "S0_sanity_no_threats": {
+    "success_rate": 1.0,
+    "finished_frac_end": 1.0,
+    "alive_frac_end": 1.0,
+    "deaths_mean": 0.0,
+    "time_to_goal_mean": 81.6,
+    "risk_integral_all": 0.0,
+    "risk_integral_alive": 0.0,
+    "collision_like": 1.0,
+    "episode_len_mean": 90.0,
+    "energy_efficiency": 14.769480616571707,
+    "safety_score": 1.0,
+    "cost_progress": -1.4742978983455235,
+    "cost_risk": 0.0,
+    "cost_wall": 0.0,
+    "cost_collision": 0.0,
+    "cost_energy": 0.0,
+    "cost_jerk": 0.002537043996987189,
+    "cost_time": 1.0
+  },
+  "S10_risk_vs_efficiency": {
+    "success_rate": 1.0,
+    "finished_frac_end": 1.0,
+    "alive_frac_end": 1.0,
+    "deaths_mean": 0.0,
+    "time_to_goal_mean": 511.95,
+    "risk_integral_all": 0.0,
+    "risk_integral_alive": 0.0,
+    "collision_like": 1.0,
+    "episode_len_mean": 531.0,
+    "energy_efficiency": 10.566678301627439,
+    "safety_score": 1.0,
+    "cost_progress": -1.0484660832446397,
+    "cost_risk": 0.0,
+    "cost_wall": 0.0,
+    "cost_collision": 0.0,
+    "cost_energy": 0.0,
+    "cost_jerk": 0.009251035055799469,
+    "cost_time": 1.0
+  }
+}

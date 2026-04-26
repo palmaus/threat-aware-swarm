@@ -1,0 +1,83 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "threat-aware-swarm"
+version = "0.1.0"
+description = "Threat-aware Swarm environment and tooling (PettingZoo + SB3 PPO)."
+readme = "README.md"
+requires-python = ">=3.10"
+dynamic = ["dependencies"]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.4.0",
+  "ruff>=0.1.0",
+  "pre-commit>=3.5.0",
+]
+
+[project.scripts]
+ta-train = "scripts.train.trained_ppo:main"
+ta-eval = "scripts.eval.eval_models:main"
+ta-scenarios = "scripts.eval.eval_scenarios:main"
+ta-bench = "scripts.bench.benchmark_baselines:main"
+ta-summarize = "scripts.eval.summarize_run:main"
+ta-analyze = "scripts.analysis.analyze_training:main"
+ta-debug-env = "scripts.debug.debug_env_metrics:main"
+ta-finish-debug = "scripts.debug.finish_debug:main"
+ta-index-models = "scripts.eval.index_models:main"
+ta-tune-baselines = "scripts.tuning.tune_baselines:main"
+ta-update-best = "scripts.tuning.update_best_params:main"
+ta-web = "ui.web_server:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["env*", "baselines*", "viz*", "scripts*", "eval*", "ui*", "common*"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+extend-exclude = [
+  "out",
+  "runs",
+  "archive",
+  "notebooks",
+]
+
+[tool.ruff.lint]
+select = [
+  "E",    # Ошибки pycodestyle.
+  "F",    # Проверки pyflakes.
+  "W",    # Предупреждения pycodestyle.
+  "I",    # Сортировка импортов isort.
+  "UP",   # Автоапгрейд синтаксиса pyupgrade.
+  "B",    # Проверки flake8-bugbear.
+  "C4",   # Проверки flake8-comprehensions.
+  "PIE",  # Проверки flake8-pie.
+  "PERF", # Проверки производительности perflint.
+  "RUF",  # Собственные правила ruff.
+]
+ignore = [
+  "E501",  # Длину строк контролирует форматтер/IDE.
+  "B905",  # strict= для zip слишком шумный в текущем коде.
+  "RUF001", # Разрешаем кириллицу в строках.
+  "RUF003", # Разрешаем кириллицу в комментариях.
+  "RUF002", # Разрешаем кириллицу в докстрингах.
+  "PERF401", # Избегаем шумных микрооптимизаций list/extend.
+  "PERF203", # Разрешаем try/except в циклах ради читаемости.
+  "PERF402", # Избегаем микрооптимизаций конструирования списков.
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["env", "scripts", "baselines", "viz", "eval", "ui", "common"]
+combine-as-imports = true
+
+[tool.ruff.format]
+quote-style = "preserve"
+indent-style = "space"
+skip-magic-trailing-comma = false
+docstring-code-format = true

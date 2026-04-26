@@ -1,0 +1,47 @@
+curriculum:
+  ema_alpha: 0.05
+  default:
+    stages:
+      - name: 0_warmup
+        params:
+          max_steps: 600
+          wall_count: 0
+          random_threat_mode: "none"
+          random_threat_count_min: 0
+          random_threat_count_max: 0
+          min_start_target_dist: 15.0
+          target_pos_min: [65.0, 65.0]
+          target_pos_max: [95.0, 95.0]
+          start_pos_min: [5.0, 5.0]
+          start_pos_max: [35.0, 35.0]
+          goal_radius: 6.0
+          goal_radius_start: 6.0
+          goal_radius_base: 6.0
+          goal_radius_decay_steps: 800000
+          goal_hold_steps: 2
+          reward:
+            w_progress: 2.0
+            w_in_goal_step: 5.0
+            w_center: 10.0
+            w_finish_bonus: 1000.0
+            w_speed: 0.1
+            brake_dist: 15.0
+        threshold: 0.7
+        min_steps: 200000
+      - name: 1_long_range
+        params:
+          max_steps: 800
+          goal_radius: 4.0
+          goal_hold_steps: 4
+          goal_radius_start: 4.0
+          goal_radius_base: 4.0
+          goal_radius_decay_steps: 500000
+          min_start_target_dist: 50.0
+          target_pos_min: [5.0, 5.0]
+          target_pos_max: [95.0, 95.0]
+          start_pos_min: [5.0, 5.0]
+          start_pos_max: [95.0, 95.0]
+          reward:
+            w_finish_bonus: 2000.0
+        threshold: 0.8
+        min_steps: 300000

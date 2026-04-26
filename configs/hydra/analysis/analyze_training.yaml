@@ -1,0 +1,13 @@
+# @package _global_
+
+run_dir: ""
+out_root: runs
+out_dir: ""
+
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+  job_logging:
+    root:
+      level: INFO

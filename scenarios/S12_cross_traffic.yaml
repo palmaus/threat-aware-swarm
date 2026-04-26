@@ -1,0 +1,10 @@
+id: S12_cross_traffic
+seed: 0
+field_size: 100.0
+start_centers:
+  - [20.0, 50.0]
+  - [80.0, 50.0]
+start_sigma: 3.0
+target_pos: [50.0, 50.0]
+threats: []
+max_steps: 800

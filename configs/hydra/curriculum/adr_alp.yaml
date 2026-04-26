@@ -1,0 +1,8 @@
+enabled: true
+config: configs/curriculum/base.yaml
+profile: adr_alp
+metric: swarm/finished_frac
+threshold: 0.7
+min_steps: 200000
+ema_alpha: 0.2
+goal_radius_decay_steps: 500000

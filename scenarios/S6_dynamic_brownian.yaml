@@ -1,0 +1,20 @@
+id: S6_dynamic_brownian
+seed: 0
+field_size: 100.0
+start_center: [10.0, 10.0]
+start_sigma: 2.0
+target_pos: [90.0, 90.0]
+dynamic_threats:
+  - type: brownian
+    pos: [40.0, 60.0]
+    radius: 7.0
+    intensity: 0.10
+    speed: 2.0
+    noise_scale: 0.6
+  - type: brownian
+    pos: [60.0, 40.0]
+    radius: 7.0
+    intensity: 0.10
+    speed: 2.0
+    noise_scale: 0.6
+max_steps: 600

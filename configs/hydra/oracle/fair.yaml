@@ -1,0 +1,6 @@
+# @package _global_
+
+env:
+  oracle_visibility: none
+  oracle_visible_to_baselines: false
+  oracle_visible_to_agents: false

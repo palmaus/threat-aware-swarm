@@ -1,0 +1,15 @@
+id: S10_risk_vs_efficiency
+seed: 0
+field_size: 100.0
+start_center: [10.0, 10.0]
+start_sigma: 2.0
+target_pos: [90.0, 90.0]
+threats:
+  - {type: static, pos: [40.0, 40.0], radius: 8.0, intensity: 0.25}
+  - {type: static, pos: [50.0, 50.0], radius: 8.0, intensity: 0.25}
+  - {type: static, pos: [60.0, 60.0], radius: 8.0, intensity: 0.25}
+  - {type: static, pos: [55.0, 45.0], radius: 6.0, intensity: 0.25}
+  - {type: static, pos: [45.0, 55.0], radius: 6.0, intensity: 0.25}
+  - {type: static, pos: [50.0, 40.0], radius: 6.0, intensity: 0.25}
+  - {type: static, pos: [40.0, 50.0], radius: 6.0, intensity: 0.25}
+max_steps: 900

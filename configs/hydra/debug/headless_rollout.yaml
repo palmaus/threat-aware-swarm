@@ -1,0 +1,26 @@
+# @package _global_
+
+defaults:
+  - _self_
+
+env: {}
+policy: baseline:flow_field
+model: null
+scenes:
+  - preset:sanity
+seed: 0
+max_steps: 600
+goal_radius: 3.0
+oracle_enabled: true
+deterministic: true
+record_every: 1
+out_dir: ""
+out_name: ""
+
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+  job_logging:
+    root:
+      level: INFO

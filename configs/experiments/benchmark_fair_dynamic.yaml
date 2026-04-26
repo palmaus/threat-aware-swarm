@@ -1,0 +1,40 @@
+name: benchmark_fair_dynamic
+steps:
+  - name: fair_dynamic_potential_fields
+    entrypoint: scripts.analysis.eval_protocol
+    overrides:
+      - scenes=[preset:dynamic]
+      - seeds=[0,1,2,3,4]
+      - episodes_per_seed=1
+      - policy=baseline:potential_fields
+      - oracle_enabled=true
+      - +oracle=fair
+  - name: fair_dynamic_mpc_lite
+    entrypoint: scripts.analysis.eval_protocol
+    overrides:
+      - scenes=[preset:dynamic]
+      - seeds=[0,1,2,3,4]
+      - episodes_per_seed=1
+      - policy=baseline:mpc_lite
+      - oracle_enabled=true
+      - +oracle=fair
+  - name: fair_dynamic_astar
+    entrypoint: scripts.analysis.eval_protocol
+    overrides:
+      - scenes=[preset:dynamic]
+      - seeds=[0,1,2,3,4]
+      - episodes_per_seed=1
+      - policy=baseline:astar_grid
+      - oracle_enabled=true
+      - +oracle=fair
+  - name: fair_dynamic_ppo
+    entrypoint: scripts.analysis.eval_protocol
+    skip_if_env_missing: [BENCH_PPO_MODEL]
+    overrides:
+      - scenes=[preset:dynamic]
+      - seeds=[0,1,2,3,4]
+      - episodes_per_seed=1
+      - policy=ppo
+      - model=${oc.env:BENCH_PPO_MODEL}
+      - oracle_enabled=true
+      - +oracle=fair

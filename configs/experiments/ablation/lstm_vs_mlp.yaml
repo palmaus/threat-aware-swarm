@@ -1,0 +1,43 @@
+name: lstm_vs_mlp
+use_ray: false
+parallel: 1
+runs:
+  - name: lstm
+    run_name: abl_lstm
+    out_dir: runs/ablation
+    command:
+      - "{python}"
+      - -m
+      - scripts.train.trained_ppo
+      - run.run_name=abl_lstm
+      - run.out_dir=runs/ablation
+      - run.total_timesteps=20000
+      - run.eval_freq=10000
+      - run.n_eval_episodes=2
+      - +oracle=fair
+      - curriculum.enabled=false
+      - logging.tracking.mlflow.enabled=false
+      - logging.tracking.clearml.enabled=false
+      - ppo.use_rnn=true
+  - name: mlp
+    run_name: abl_mlp
+    out_dir: runs/ablation
+    command:
+      - "{python}"
+      - -m
+      - scripts.train.trained_ppo
+      - run.run_name=abl_mlp
+      - run.out_dir=runs/ablation
+      - run.total_timesteps=20000
+      - run.eval_freq=10000
+      - run.n_eval_episodes=2
+      - +oracle=fair
+      - curriculum.enabled=false
+      - logging.tracking.mlflow.enabled=false
+      - logging.tracking.clearml.enabled=false
+      - ppo.use_rnn=false
+metrics:
+  - key: metrics.last_eval.success_rate
+    label: success_rate
+  - key: metrics.last_eval.time_to_goal_mean
+    label: time_to_goal_mean

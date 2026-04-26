@@ -1,0 +1,31 @@
+methods:
+  ppo:
+    class: fair
+    info_regime: local_only
+    method_type: learned
+    notes: "Policy uses dict‑obs only; no oracle input in main benchmark."
+  baseline:potential_fields:
+    class: fair
+    info_regime: local_only
+    method_type: reactive
+    notes: "Опционально использует oracle_dir, если он видим. Для fair: oracle_visibility=none."
+  baseline:mpc_lite:
+    class: fair
+    info_regime: local_only
+    method_type: reactive
+    notes: "Опционально использует oracle_dir (direction hint). Для fair: oracle_visibility=none."
+  baseline:astar_grid:
+    class: fair
+    info_regime: local_memory
+    method_type: global_planner
+    notes: "В fair режиме oracle_visibility=none; discovered‑map через память."
+  baseline:flow_field:
+    class: privileged
+    info_regime: full_static_map
+    method_type: global_planner
+    notes: "Использует oracle_dir (full map). В fair таблицы не включать."
+  oracle:static_shortest_path:
+    class: oracle_only
+    info_regime: full_static_map
+    method_type: oracle_reference
+    notes: "Eval‑only reference (path length lower bound)."

@@ -1,0 +1,6 @@
+# @package _global_
+
+steps: 2000
+n_agents: 20
+seed: 0
+schema: obs@1694:v5

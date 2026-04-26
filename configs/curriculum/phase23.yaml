@@ -1,0 +1,27 @@
+curriculum:
+  ema_alpha: 0.05
+  default:
+    stages:
+      - name: 2_geometry
+        params:
+          max_steps: 800
+          wall_count: 5
+          wall_size_min: 10.0
+          wall_size_max: 25.0
+          goal_hold_steps: 4
+          min_start_target_dist: 40.0
+          reward:
+            w_finish_bonus: 2000.0
+            w_wall: 20.0
+        threshold: 0.7
+        min_steps: 200000
+      - name: 3_static_threats
+        params:
+          random_threat_mode: "static"
+          random_threat_count_min: 3
+          random_threat_count_max: 6
+          reward:
+            w_finish_bonus: 2000.0
+            w_risk: 5.0
+        threshold: 0.7
+        min_steps: 200000

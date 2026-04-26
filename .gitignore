@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.ruff_cache/
+.venv/
+venv/
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node / frontend
+node_modules/
+ui_frontend/node_modules/
+ui_frontend/dist/
+ui_frontend/.vite/
+
+# Runs / artifacts
+runs/
+!runs/.keep
+mlruns/
+archive/
+docs/archive/
+models/
+!models/baselines/
+!models/baselines/**
+train/models/
+train/logs/
+train/tb/
+out/
+outputs/
+*.tfevents*
+events.out.tfevents*
+*.zip
+*.pt
+*.ckpt
+model_registry.csv
+*.pdf
+*.aux
+*.log
+*.synctex.gz
+
+# IDE
+.idea/
+idea/
+.vscode/
+
+# Local agent / scratch files
+.codex
+/package-lock.json

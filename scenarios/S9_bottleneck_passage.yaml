@@ -1,0 +1,11 @@
+id: S9_bottleneck_passage
+seed: 0
+field_size: 100.0
+start_center: [20.0, 20.0]
+start_sigma: 2.0
+target_pos: [80.0, 80.0]
+walls:
+  - [0.0, 48.0, 48.0, 52.0]
+  - [52.0, 48.0, 100.0, 52.0]
+threats: []
+max_steps: 900

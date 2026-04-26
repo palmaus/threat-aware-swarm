@@ -1,0 +1,20 @@
+name: benchmark_privileged_static
+steps:
+  - name: privileged_static_flow_field
+    entrypoint: scripts.analysis.eval_protocol
+    overrides:
+      - scenes=[preset:static]
+      - seeds=[0,1,2,3,4]
+      - episodes_per_seed=1
+      - policy=baseline:flow_field
+      - oracle_enabled=true
+      - +oracle=privileged
+  - name: privileged_static_astar
+    entrypoint: scripts.analysis.eval_protocol
+    overrides:
+      - scenes=[preset:static]
+      - seeds=[0,1,2,3,4]
+      - episodes_per_seed=1
+      - policy=baseline:astar_grid
+      - oracle_enabled=true
+      - +oracle=privileged

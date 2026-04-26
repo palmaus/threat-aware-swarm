@@ -1,0 +1,46 @@
+name: demo_pack
+steps:
+  - name: demo_eval_protocol
+    entrypoint: scripts.analysis.eval_protocol
+    overrides:
+      - scenes=[scenarios/S0_sanity_no_threats.yaml,scenarios/S5_dynamic_linear.yaml,scenarios/S9_bottleneck_passage.yaml,scenarios/S14_moving_goal.yaml]
+      - seeds=[0,1,2]
+      - episodes_per_seed=1
+      - policy=baseline:potential_fields
+      - oracle_enabled=true
+      - +oracle=fair
+  - name: demo_eval_protocol_ppo
+    entrypoint: scripts.analysis.eval_protocol
+    skip_if_env_missing: [DEMO_PPO_MODEL]
+    overrides:
+      - scenes=[scenarios/S0_sanity_no_threats.yaml,scenarios/S5_dynamic_linear.yaml,scenarios/S9_bottleneck_passage.yaml,scenarios/S14_moving_goal.yaml]
+      - seeds=[0,1,2]
+      - episodes_per_seed=1
+      - policy=ppo
+      - model=${oc.env:DEMO_PPO_MODEL}
+      - oracle_enabled=true
+      - +oracle=fair
+  - name: demo_gif_export
+    entrypoint: scripts.eval.eval_scenarios
+    overrides:
+      - scenes=[scenarios/S0_sanity_no_threats.yaml,scenarios/S5_dynamic_linear.yaml,scenarios/S9_bottleneck_passage.yaml,scenarios/S14_moving_goal.yaml]
+      - policy=baseline:potential_fields
+      - episodes=1
+      - seed=0
+      - oracle_enabled=true
+      - +oracle=fair
+      - export_gif=true
+      - gif_fps=20
+  - name: demo_gif_export_ppo
+    entrypoint: scripts.eval.eval_scenarios
+    skip_if_env_missing: [DEMO_PPO_MODEL]
+    overrides:
+      - scenes=[scenarios/S0_sanity_no_threats.yaml,scenarios/S5_dynamic_linear.yaml,scenarios/S9_bottleneck_passage.yaml,scenarios/S14_moving_goal.yaml]
+      - policy=ppo
+      - model=${oc.env:DEMO_PPO_MODEL}
+      - episodes=1
+      - seed=0
+      - oracle_enabled=true
+      - +oracle=fair
+      - export_gif=true
+      - gif_fps=20

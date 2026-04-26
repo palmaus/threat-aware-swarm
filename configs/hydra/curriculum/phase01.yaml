@@ -1,0 +1,8 @@
+enabled: true
+config: configs/curriculum/phase01.yaml
+profile: phase01
+metric: swarm/finished_frac
+threshold: 0.7
+min_steps: 200000
+ema_alpha: 0.2
+goal_radius_decay_steps: 500000

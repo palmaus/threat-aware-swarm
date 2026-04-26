@@ -1,0 +1,33 @@
+defaults:
+  - env: default
+  - env_profile: full
+  - ppo: default
+  - vec: default
+  - curriculum: default
+  - resume: default
+  - logging: default
+  - experiment: cnn_heavy
+  - _self_
+
+run:
+  run_name: "ppo_${env.profile}_${curriculum.profile}_seed${run.seed}_${now:%Y-%m-%d_%H-%M-%S}"
+  seed: 0
+  total_timesteps: 10000000
+  eval_freq: 50000
+  n_eval_episodes: 20
+  checkpoint_freq: 1000000
+  out_dir: runs
+  deterministic_eval: false
+  no_eval: false
+
+env:
+  max_steps: 600
+  goal_radius: 3.0
+
+vec:
+  num_vec_envs: 8
+  num_cpus: 8
+
+device: auto
+exp_id: ""
+progress_bar: false

@@ -1,0 +1,2279 @@
+{
+  "baseline:random": {
+    "scene": "scenarios/S7_dynamic_chaser.yaml",
+    "max_steps": 600,
+    "total_time_sec": 2.4058543169958284,
+    "top": [
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/pz_env.py",
+        "line": 113,
+        "func": "step",
+        "cumtime": 1.497285296,
+        "tottime": 0.008147090000000001,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/policies.py",
+        "line": 460,
+        "func": "step_batch",
+        "cumtime": 0.7864807220000001,
+        "tottime": 0.127000725,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/rewarder.py",
+        "line": 132,
+        "func": "build_step_result",
+        "cumtime": 0.6069483800000001,
+        "tottime": 0.26492381000000004,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 303,
+        "func": "step",
+        "cumtime": 0.568540331,
+        "tottime": 0.006233947,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/decision_loop.py",
+        "line": 26,
+        "func": "run",
+        "cumtime": 0.557187318,
+        "tottime": 0.001228719,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/physics_loop.py",
+        "line": 22,
+        "func": "run",
+        "cumtime": 0.555958599,
+        "tottime": 0.0021944910000000002,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 350,
+        "func": "_step_physics",
+        "cumtime": 0.553583675,
+        "tottime": 0.09221567900000001,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 194,
+        "func": "velocity_tracking_action_batch",
+        "cumtime": 0.41683455700000005,
+        "tottime": 0.087936607,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/observer.py",
+        "line": 96,
+        "func": "build_all",
+        "cumtime": 0.27042824400000004,
+        "tottime": 0.006500225,
+        "calls": 601
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/obs_builder.py",
+        "line": 80,
+        "func": "build_all",
+        "cumtime": 0.261552785,
+        "tottime": 0.002393136,
+        "calls": 601
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/obs_builder.py",
+        "line": 469,
+        "func": "_build_v5_batch",
+        "cumtime": 0.258973073,
+        "tottime": 0.156410678,
+        "calls": 601
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 113,
+        "func": "_apply_brake_speed_cap",
+        "cumtime": 0.234382309,
+        "tottime": 0.07978320900000001,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/physics_core.py",
+        "line": 141,
+        "func": "step",
+        "cumtime": 0.214569542,
+        "tottime": 0.053188848000000004,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 71,
+        "func": "_wrapreduction",
+        "cumtime": 0.109895326,
+        "tottime": 0.032809540000000005,
+        "calls": 29352
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 2100,
+        "func": "clip",
+        "cumtime": 0.10488256700000001,
+        "tottime": 0.013360454,
+        "calls": 20876
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 53,
+        "func": "_wrapfunc",
+        "cumtime": 0.09404527400000001,
+        "tottime": 0.011339715,
+        "calls": 22076
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 2322,
+        "func": "any",
+        "cumtime": 0.093669897,
+        "tottime": 0.016728036,
+        "calls": 21548
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/linalg/linalg.py",
+        "line": 2383,
+        "func": "norm",
+        "cumtime": 0.091574206,
+        "tottime": 0.053227121,
+        "calls": 16768
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'reduce' of 'numpy.ufunc' objects>",
+        "cumtime": 0.078588315,
+        "tottime": 0.078588315,
+        "calls": 35282
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 899,
+        "func": "_compute_threat_metrics",
+        "cumtime": 0.078191364,
+        "tottime": 0.042418273,
+        "calls": 1201
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'clip' of 'numpy.ndarray' objects>",
+        "cumtime": 0.077870119,
+        "tottime": 0.00749598,
+        "calls": 20876
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'astype' of 'numpy.ndarray' objects>",
+        "cumtime": 0.077772003,
+        "tottime": 0.077772003,
+        "calls": 116097
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/_methods.py",
+        "line": 90,
+        "func": "_clip",
+        "cumtime": 0.070374139,
+        "tottime": 0.070374139,
+        "calls": 20876
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/metrics.py",
+        "line": 11,
+        "func": "__call__",
+        "cumtime": 0.068196881,
+        "tottime": 0.045767767,
+        "calls": 12020
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 68,
+        "func": "_wall_distance_along_dir",
+        "cumtime": 0.06475183400000001,
+        "tottime": 0.034540523000000004,
+        "calls": 12000
+      }
+    ]
+  },
+  "baseline:zero": {
+    "scene": "scenarios/S7_dynamic_chaser.yaml",
+    "max_steps": 600,
+    "total_time_sec": 1.9753727349961991,
+    "top": [
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/pz_env.py",
+        "line": 113,
+        "func": "step",
+        "cumtime": 1.445557263,
+        "tottime": 0.008087243000000001,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/rewarder.py",
+        "line": 132,
+        "func": "build_step_result",
+        "cumtime": 0.609652694,
+        "tottime": 0.263847002,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 303,
+        "func": "step",
+        "cumtime": 0.554424551,
+        "tottime": 0.005549419000000001,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/decision_loop.py",
+        "line": 26,
+        "func": "run",
+        "cumtime": 0.544336691,
+        "tottime": 0.0011328730000000002,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/physics_loop.py",
+        "line": 22,
+        "func": "run",
+        "cumtime": 0.5432038180000001,
+        "tottime": 0.002537309,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 350,
+        "func": "_step_physics",
+        "cumtime": 0.540485451,
+        "tottime": 0.09195351800000001,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/policies.py",
+        "line": 460,
+        "func": "step_batch",
+        "cumtime": 0.411184258,
+        "tottime": 0.125026393,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/observer.py",
+        "line": 96,
+        "func": "build_all",
+        "cumtime": 0.229619752,
+        "tottime": 0.0058436270000000005,
+        "calls": 601
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/obs_builder.py",
+        "line": 80,
+        "func": "build_all",
+        "cumtime": 0.22154867800000003,
+        "tottime": 0.002092088,
+        "calls": 601
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/obs_builder.py",
+        "line": 469,
+        "func": "_build_v5_batch",
+        "cumtime": 0.21932557600000002,
+        "tottime": 0.124756372,
+        "calls": 601
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/physics_core.py",
+        "line": 141,
+        "func": "step",
+        "cumtime": 0.20011141300000002,
+        "tottime": 0.048952406000000004,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 71,
+        "func": "_wrapreduction",
+        "cumtime": 0.10634505100000001,
+        "tottime": 0.032250647,
+        "calls": 28806
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 2100,
+        "func": "clip",
+        "cumtime": 0.10419739,
+        "tottime": 0.013089784,
+        "calls": 21027
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 194,
+        "func": "velocity_tracking_action_batch",
+        "cumtime": 0.10039552900000001,
+        "tottime": 0.027602884,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 53,
+        "func": "_wrapfunc",
+        "cumtime": 0.093616842,
+        "tottime": 0.011251806000000001,
+        "calls": 22227
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 2322,
+        "func": "any",
+        "cumtime": 0.089281449,
+        "tottime": 0.016340593,
+        "calls": 21002
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/linalg/linalg.py",
+        "line": 2383,
+        "func": "norm",
+        "cumtime": 0.078453385,
+        "tottime": 0.045742281,
+        "calls": 16222
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 899,
+        "func": "_compute_threat_metrics",
+        "cumtime": 0.07769334400000001,
+        "tottime": 0.042168723000000005,
+        "calls": 1201
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'clip' of 'numpy.ndarray' objects>",
+        "cumtime": 0.077616508,
+        "tottime": 0.007455281,
+        "calls": 21027
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'reduce' of 'numpy.ufunc' objects>",
+        "cumtime": 0.072519629,
+        "tottime": 0.072519629,
+        "calls": 34208
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/_methods.py",
+        "line": 90,
+        "func": "_clip",
+        "cumtime": 0.070161227,
+        "tottime": 0.070161227,
+        "calls": 21027
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/metrics.py",
+        "line": 11,
+        "func": "__call__",
+        "cumtime": 0.06905970900000001,
+        "tottime": 0.046411111000000005,
+        "calls": 12020
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'astype' of 'numpy.ndarray' objects>",
+        "cumtime": 0.06892000100000001,
+        "tottime": 0.06892000100000001,
+        "calls": 103906
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/cost_schema.py",
+        "line": 42,
+        "func": "costs_from_parts",
+        "cumtime": 0.064218434,
+        "tottime": 0.029828631,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/reward.py",
+        "line": 407,
+        "func": "compute_all",
+        "cumtime": 0.06369883300000001,
+        "tottime": 0.0007720720000000001,
+        "calls": 600
+      }
+    ]
+  },
+  "baseline:greedy": {
+    "scene": "scenarios/S7_dynamic_chaser.yaml",
+    "max_steps": 600,
+    "total_time_sec": 2.3644765649951296,
+    "top": [
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/pz_env.py",
+        "line": 113,
+        "func": "step",
+        "cumtime": 1.482795528,
+        "tottime": 0.008313943,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/policies.py",
+        "line": 460,
+        "func": "step_batch",
+        "cumtime": 0.749274956,
+        "tottime": 0.12239667700000001,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/rewarder.py",
+        "line": 132,
+        "func": "build_step_result",
+        "cumtime": 0.601517863,
+        "tottime": 0.253154056,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 303,
+        "func": "step",
+        "cumtime": 0.563797859,
+        "tottime": 0.005400443,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/decision_loop.py",
+        "line": 26,
+        "func": "run",
+        "cumtime": 0.553403736,
+        "tottime": 0.001224143,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/physics_loop.py",
+        "line": 22,
+        "func": "run",
+        "cumtime": 0.5521795930000001,
+        "tottime": 0.0021487940000000003,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 350,
+        "func": "_step_physics",
+        "cumtime": 0.5498482250000001,
+        "tottime": 0.08892385300000001,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 194,
+        "func": "velocity_tracking_action_batch",
+        "cumtime": 0.412226013,
+        "tottime": 0.083516411,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/observer.py",
+        "line": 96,
+        "func": "build_all",
+        "cumtime": 0.26924285800000003,
+        "tottime": 0.005709831,
+        "calls": 604
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/obs_builder.py",
+        "line": 80,
+        "func": "build_all",
+        "cumtime": 0.261002006,
+        "tottime": 0.0023319580000000003,
+        "calls": 604
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/obs_builder.py",
+        "line": 469,
+        "func": "_build_v5_batch",
+        "cumtime": 0.258480044,
+        "tottime": 0.156079417,
+        "calls": 604
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 113,
+        "func": "_apply_brake_speed_cap",
+        "cumtime": 0.232898612,
+        "tottime": 0.07879619800000001,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/physics_core.py",
+        "line": 141,
+        "func": "step",
+        "cumtime": 0.215151756,
+        "tottime": 0.051589689,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 71,
+        "func": "_wrapreduction",
+        "cumtime": 0.109437613,
+        "tottime": 0.03334849,
+        "calls": 29285
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 2100,
+        "func": "clip",
+        "cumtime": 0.102420694,
+        "tottime": 0.012976585,
+        "calls": 20409
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 2322,
+        "func": "any",
+        "cumtime": 0.093026222,
+        "tottime": 0.016815328,
+        "calls": 21505
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 53,
+        "func": "_wrapfunc",
+        "cumtime": 0.09196681300000001,
+        "tottime": 0.011318547,
+        "calls": 21609
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/linalg/linalg.py",
+        "line": 2383,
+        "func": "norm",
+        "cumtime": 0.09185863100000001,
+        "tottime": 0.053320895,
+        "calls": 16803
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 899,
+        "func": "_compute_threat_metrics",
+        "cumtime": 0.079420713,
+        "tottime": 0.043344480000000005,
+        "calls": 1204
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'reduce' of 'numpy.ufunc' objects>",
+        "cumtime": 0.077469331,
+        "tottime": 0.077469331,
+        "calls": 35169
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'clip' of 'numpy.ndarray' objects>",
+        "cumtime": 0.075986069,
+        "tottime": 0.007523496,
+        "calls": 20409
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'astype' of 'numpy.ndarray' objects>",
+        "cumtime": 0.07084304500000001,
+        "tottime": 0.07084304500000001,
+        "calls": 103859
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/metrics.py",
+        "line": 11,
+        "func": "__call__",
+        "cumtime": 0.06939734900000001,
+        "tottime": 0.046619377000000004,
+        "calls": 12080
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/_methods.py",
+        "line": 90,
+        "func": "_clip",
+        "cumtime": 0.068462573,
+        "tottime": 0.068462573,
+        "calls": 20409
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/reward.py",
+        "line": 407,
+        "func": "compute_all",
+        "cumtime": 0.064780498,
+        "tottime": 0.0008195320000000001,
+        "calls": 600
+      }
+    ]
+  },
+  "baseline:greedy_safe": {
+    "scene": "scenarios/S7_dynamic_chaser.yaml",
+    "max_steps": 600,
+    "total_time_sec": 2.7825819429999683,
+    "top": [
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/pz_env.py",
+        "line": 113,
+        "func": "step",
+        "cumtime": 1.3783152470000002,
+        "tottime": 0.008072093,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/policies.py",
+        "line": 460,
+        "func": "step_batch",
+        "cumtime": 1.285448571,
+        "tottime": 0.141481467,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/policies.py",
+        "line": 736,
+        "func": "plan",
+        "cumtime": 0.700797383,
+        "tottime": 0.08926004,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/rewarder.py",
+        "line": 132,
+        "func": "build_step_result",
+        "cumtime": 0.594716119,
+        "tottime": 0.250127618,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 303,
+        "func": "step",
+        "cumtime": 0.527864901,
+        "tottime": 0.005314308,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/decision_loop.py",
+        "line": 26,
+        "func": "run",
+        "cumtime": 0.517837707,
+        "tottime": 0.0012592550000000001,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/physics_loop.py",
+        "line": 22,
+        "func": "run",
+        "cumtime": 0.5165784520000001,
+        "tottime": 0.002118973,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 350,
+        "func": "_step_physics",
+        "cumtime": 0.514280855,
+        "tottime": 0.06810690800000001,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 355,
+        "func": "grid_avoid_from_cost",
+        "cumtime": 0.26742324900000003,
+        "tottime": 0.17497833000000002,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 318,
+        "func": "normalize",
+        "cumtime": 0.24692138600000002,
+        "tottime": 0.065795407,
+        "calls": 24720
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 194,
+        "func": "velocity_tracking_action_batch",
+        "cumtime": 0.24201987000000003,
+        "tottime": 0.05418110600000001,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/physics_core.py",
+        "line": 141,
+        "func": "step",
+        "cumtime": 0.226881998,
+        "tottime": 0.053124258,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/observer.py",
+        "line": 96,
+        "func": "build_all",
+        "cumtime": 0.20832686900000003,
+        "tottime": 0.005420206,
+        "calls": 601
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/obs_builder.py",
+        "line": 80,
+        "func": "build_all",
+        "cumtime": 0.200437358,
+        "tottime": 0.0019928800000000003,
+        "calls": 601
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/obs_builder.py",
+        "line": 469,
+        "func": "_build_v5_batch",
+        "cumtime": 0.19824454400000002,
+        "tottime": 0.11491968000000001,
+        "calls": 601
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/linalg/linalg.py",
+        "line": 2383,
+        "func": "norm",
+        "cumtime": 0.188951945,
+        "tottime": 0.112460291,
+        "calls": 41715
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 346,
+        "func": "wall_avoid_from_distances",
+        "cumtime": 0.169064672,
+        "tottime": 0.020245084,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 71,
+        "func": "_wrapreduction",
+        "cumtime": 0.16868881200000002,
+        "tottime": 0.052041136,
+        "calls": 43125
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 2322,
+        "func": "any",
+        "cumtime": 0.15941149000000002,
+        "tottime": 0.026951606000000003,
+        "calls": 33881
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 113,
+        "func": "_apply_brake_speed_cap",
+        "cumtime": 0.13190263100000002,
+        "tottime": 0.040843413,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 2100,
+        "func": "clip",
+        "cumtime": 0.12564671,
+        "tottime": 0.017873305000000003,
+        "calls": 26074
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 53,
+        "func": "_wrapfunc",
+        "cumtime": 0.110358916,
+        "tottime": 0.014931792000000001,
+        "calls": 27274
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'reduce' of 'numpy.ufunc' objects>",
+        "cumtime": 0.10935333700000001,
+        "tottime": 0.10935333700000001,
+        "calls": 49270
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'clip' of 'numpy.ndarray' objects>",
+        "cumtime": 0.08917909800000001,
+        "tottime": 0.010108536000000001,
+        "calls": 26074
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 899,
+        "func": "_compute_threat_metrics",
+        "cumtime": 0.08100162100000001,
+        "tottime": 0.04389042,
+        "calls": 1201
+      }
+    ]
+  },
+  "baseline:wall": {
+    "scene": "scenarios/S7_dynamic_chaser.yaml",
+    "max_steps": 600,
+    "total_time_sec": 2.3720030109980144,
+    "top": [
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/pz_env.py",
+        "line": 113,
+        "func": "step",
+        "cumtime": 1.467106293,
+        "tottime": 0.008443115000000001,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/policies.py",
+        "line": 460,
+        "func": "step_batch",
+        "cumtime": 0.769824029,
+        "tottime": 0.127764801,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/rewarder.py",
+        "line": 132,
+        "func": "build_step_result",
+        "cumtime": 0.592917522,
+        "tottime": 0.248789785,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 303,
+        "func": "step",
+        "cumtime": 0.559010996,
+        "tottime": 0.005355454,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/decision_loop.py",
+        "line": 26,
+        "func": "run",
+        "cumtime": 0.548889166,
+        "tottime": 0.0012372090000000002,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/physics_loop.py",
+        "line": 22,
+        "func": "run",
+        "cumtime": 0.547651957,
+        "tottime": 0.002091335,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 350,
+        "func": "_step_physics",
+        "cumtime": 0.545385356,
+        "tottime": 0.08776988200000001,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 194,
+        "func": "velocity_tracking_action_batch",
+        "cumtime": 0.39216348,
+        "tottime": 0.081855748,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/observer.py",
+        "line": 96,
+        "func": "build_all",
+        "cumtime": 0.267792564,
+        "tottime": 0.005919601,
+        "calls": 604
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/obs_builder.py",
+        "line": 80,
+        "func": "build_all",
+        "cumtime": 0.25932529600000004,
+        "tottime": 0.0023135580000000003,
+        "calls": 604
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/obs_builder.py",
+        "line": 469,
+        "func": "_build_v5_batch",
+        "cumtime": 0.256866612,
+        "tottime": 0.154120114,
+        "calls": 604
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 113,
+        "func": "_apply_brake_speed_cap",
+        "cumtime": 0.21652785900000002,
+        "tottime": 0.07406751,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/physics_core.py",
+        "line": 141,
+        "func": "step",
+        "cumtime": 0.2135815,
+        "tottime": 0.050670378,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 71,
+        "func": "_wrapreduction",
+        "cumtime": 0.11206737100000001,
+        "tottime": 0.034561033000000005,
+        "calls": 29290
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 2100,
+        "func": "clip",
+        "cumtime": 0.10182266300000001,
+        "tottime": 0.013068068,
+        "calls": 20414
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 2322,
+        "func": "any",
+        "cumtime": 0.09570228,
+        "tottime": 0.017161465,
+        "calls": 21510
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 53,
+        "func": "_wrapfunc",
+        "cumtime": 0.09126858900000001,
+        "tottime": 0.011222789,
+        "calls": 21614
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/linalg/linalg.py",
+        "line": 2383,
+        "func": "norm",
+        "cumtime": 0.090922477,
+        "tottime": 0.052791166,
+        "calls": 16803
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 899,
+        "func": "_compute_threat_metrics",
+        "cumtime": 0.07911849900000001,
+        "tottime": 0.042943793,
+        "calls": 1204
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'reduce' of 'numpy.ufunc' objects>",
+        "cumtime": 0.078586346,
+        "tottime": 0.078586346,
+        "calls": 35174
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'clip' of 'numpy.ndarray' objects>",
+        "cumtime": 0.07546171900000001,
+        "tottime": 0.007419701000000001,
+        "calls": 20414
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'astype' of 'numpy.ndarray' objects>",
+        "cumtime": 0.070723453,
+        "tottime": 0.070723453,
+        "calls": 103859
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/metrics.py",
+        "line": 11,
+        "func": "__call__",
+        "cumtime": 0.068816709,
+        "tottime": 0.046192598,
+        "calls": 12080
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/_methods.py",
+        "line": 90,
+        "func": "_clip",
+        "cumtime": 0.06804201800000001,
+        "tottime": 0.06804201800000001,
+        "calls": 20414
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/cost_schema.py",
+        "line": 42,
+        "func": "costs_from_parts",
+        "cumtime": 0.063835978,
+        "tottime": 0.029818422,
+        "calls": 12000
+      }
+    ]
+  },
+  "baseline:brake": {
+    "scene": "scenarios/S7_dynamic_chaser.yaml",
+    "max_steps": 600,
+    "total_time_sec": 2.5134040799966897,
+    "top": [
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/pz_env.py",
+        "line": 113,
+        "func": "step",
+        "cumtime": 1.540360406,
+        "tottime": 0.009571758000000001,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/policies.py",
+        "line": 460,
+        "func": "step_batch",
+        "cumtime": 0.828446707,
+        "tottime": 0.127677959,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/rewarder.py",
+        "line": 132,
+        "func": "build_step_result",
+        "cumtime": 0.6157850880000001,
+        "tottime": 0.257149742,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 303,
+        "func": "step",
+        "cumtime": 0.592904791,
+        "tottime": 0.006053426000000001,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/decision_loop.py",
+        "line": 26,
+        "func": "run",
+        "cumtime": 0.581503098,
+        "tottime": 0.00139067,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/physics_loop.py",
+        "line": 22,
+        "func": "run",
+        "cumtime": 0.5801124280000001,
+        "tottime": 0.002428272,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 350,
+        "func": "_step_physics",
+        "cumtime": 0.577497585,
+        "tottime": 0.09329193300000001,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 194,
+        "func": "velocity_tracking_action_batch",
+        "cumtime": 0.406175534,
+        "tottime": 0.08488591000000001,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/observer.py",
+        "line": 96,
+        "func": "build_all",
+        "cumtime": 0.280684888,
+        "tottime": 0.006147887,
+        "calls": 604
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/obs_builder.py",
+        "line": 80,
+        "func": "build_all",
+        "cumtime": 0.27183147700000004,
+        "tottime": 0.002470672,
+        "calls": 604
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/obs_builder.py",
+        "line": 469,
+        "func": "_build_v5_batch",
+        "cumtime": 0.26916906900000004,
+        "tottime": 0.162271792,
+        "calls": 604
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/physics_core.py",
+        "line": 141,
+        "func": "step",
+        "cumtime": 0.22944438,
+        "tottime": 0.055563310000000005,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 113,
+        "func": "_apply_brake_speed_cap",
+        "cumtime": 0.222239539,
+        "tottime": 0.076013351,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/linalg/linalg.py",
+        "line": 2383,
+        "func": "norm",
+        "cumtime": 0.145586388,
+        "tottime": 0.08564980900000001,
+        "calls": 28803
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 71,
+        "func": "_wrapreduction",
+        "cumtime": 0.11642097800000001,
+        "tottime": 0.035373074000000004,
+        "calls": 29285
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 2100,
+        "func": "clip",
+        "cumtime": 0.10591855500000001,
+        "tottime": 0.013988071000000001,
+        "calls": 20409
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 2322,
+        "func": "any",
+        "cumtime": 0.100092892,
+        "tottime": 0.017944353,
+        "calls": 21505
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/policies.py",
+        "line": 891,
+        "func": "plan",
+        "cumtime": 0.09659761700000001,
+        "tottime": 0.016303286,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 53,
+        "func": "_wrapfunc",
+        "cumtime": 0.09459313000000001,
+        "tottime": 0.011673955000000001,
+        "calls": 21609
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'reduce' of 'numpy.ufunc' objects>",
+        "cumtime": 0.082968199,
+        "tottime": 0.082968199,
+        "calls": 35169
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 899,
+        "func": "_compute_threat_metrics",
+        "cumtime": 0.081356182,
+        "tottime": 0.044058894,
+        "calls": 1204
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'clip' of 'numpy.ndarray' objects>",
+        "cumtime": 0.07802391900000001,
+        "tottime": 0.007904485000000001,
+        "calls": 20409
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'astype' of 'numpy.ndarray' objects>",
+        "cumtime": 0.07306569,
+        "tottime": 0.07306569,
+        "calls": 103859
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/metrics.py",
+        "line": 11,
+        "func": "__call__",
+        "cumtime": 0.071442541,
+        "tottime": 0.048169392000000005,
+        "calls": 12080
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/_methods.py",
+        "line": 90,
+        "func": "_clip",
+        "cumtime": 0.07011943400000001,
+        "tottime": 0.07011943400000001,
+        "calls": 20409
+      }
+    ]
+  },
+  "baseline:separation_steering": {
+    "scene": "scenarios/S7_dynamic_chaser.yaml",
+    "max_steps": 600,
+    "total_time_sec": 3.6336344520022976,
+    "top": [
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/policies.py",
+        "line": 460,
+        "func": "step_batch",
+        "cumtime": 2.009277622,
+        "tottime": 0.148537411,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/pz_env.py",
+        "line": 113,
+        "func": "step",
+        "cumtime": 1.4860814960000002,
+        "tottime": 0.008869167,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/separation_steering.py",
+        "line": 42,
+        "func": "plan",
+        "cumtime": 1.2634001400000001,
+        "tottime": 0.105001093,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 355,
+        "func": "grid_avoid_from_cost",
+        "cumtime": 0.724733505,
+        "tottime": 0.307407172,
+        "calls": 24000
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/rewarder.py",
+        "line": 132,
+        "func": "build_step_result",
+        "cumtime": 0.6010223290000001,
+        "tottime": 0.251901941,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 303,
+        "func": "step",
+        "cumtime": 0.570452107,
+        "tottime": 0.005816199,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/decision_loop.py",
+        "line": 26,
+        "func": "run",
+        "cumtime": 0.5596156990000001,
+        "tottime": 0.001407997,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/physics_loop.py",
+        "line": 22,
+        "func": "run",
+        "cumtime": 0.558207702,
+        "tottime": 0.002187908,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 350,
+        "func": "_step_physics",
+        "cumtime": 0.555841645,
+        "tottime": 0.089980979,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 318,
+        "func": "normalize",
+        "cumtime": 0.46883465300000005,
+        "tottime": 0.134611522,
+        "calls": 35125
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 194,
+        "func": "velocity_tracking_action_batch",
+        "cumtime": 0.39420903700000004,
+        "tottime": 0.082964907,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 71,
+        "func": "_wrapreduction",
+        "cumtime": 0.286025166,
+        "tottime": 0.08332356,
+        "calls": 75528
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/observer.py",
+        "line": 96,
+        "func": "build_all",
+        "cumtime": 0.266906509,
+        "tottime": 0.005635572,
+        "calls": 604
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/obs_builder.py",
+        "line": 80,
+        "func": "build_all",
+        "cumtime": 0.258719005,
+        "tottime": 0.002229478,
+        "calls": 604
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/obs_builder.py",
+        "line": 469,
+        "func": "_build_v5_batch",
+        "cumtime": 0.256305636,
+        "tottime": 0.15416653900000002,
+        "calls": 604
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 2100,
+        "func": "clip",
+        "cumtime": 0.24593916200000002,
+        "tottime": 0.034615759,
+        "calls": 53151
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/linalg/linalg.py",
+        "line": 2383,
+        "func": "norm",
+        "cumtime": 0.23704844300000003,
+        "tottime": 0.140957406,
+        "calls": 51927
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/physics_core.py",
+        "line": 141,
+        "func": "step",
+        "cumtime": 0.218366251,
+        "tottime": 0.052546273000000004,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 113,
+        "func": "_apply_brake_speed_cap",
+        "cumtime": 0.21520834600000002,
+        "tottime": 0.07379348000000001,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 53,
+        "func": "_wrapfunc",
+        "cumtime": 0.21394939600000001,
+        "tottime": 0.028574568,
+        "calls": 54351
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 2322,
+        "func": "any",
+        "cumtime": 0.21198312600000002,
+        "tottime": 0.035864886000000006,
+        "calls": 45514
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 346,
+        "func": "wall_avoid_from_distances",
+        "cumtime": 0.20456700800000002,
+        "tottime": 0.021977544,
+        "calls": 12000
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'reduce' of 'numpy.ufunc' objects>",
+        "cumtime": 0.18126418600000002,
+        "tottime": 0.18126418600000002,
+        "calls": 81411
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'clip' of 'numpy.ndarray' objects>",
+        "cumtime": 0.17646456100000002,
+        "tottime": 0.019920084,
+        "calls": 53151
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/_methods.py",
+        "line": 90,
+        "func": "_clip",
+        "cumtime": 0.15654447700000002,
+        "tottime": 0.15654447700000002,
+        "calls": 53151
+      }
+    ]
+  },
+  "baseline:potential_fields": {
+    "scene": "scenarios/S7_dynamic_chaser.yaml",
+    "max_steps": 600,
+    "total_time_sec": 2.6179956089981715,
+    "top": [
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/pz_env.py",
+        "line": 113,
+        "func": "step",
+        "cumtime": 1.515920885,
+        "tottime": 0.008896643000000001,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/policies.py",
+        "line": 460,
+        "func": "step_batch",
+        "cumtime": 0.963834386,
+        "tottime": 0.12558575700000002,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/rewarder.py",
+        "line": 132,
+        "func": "build_step_result",
+        "cumtime": 0.603528605,
+        "tottime": 0.253080698,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 303,
+        "func": "step",
+        "cumtime": 0.5702449860000001,
+        "tottime": 0.005895928000000001,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/decision_loop.py",
+        "line": 26,
+        "func": "run",
+        "cumtime": 0.559220638,
+        "tottime": 0.0013769440000000002,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/physics_loop.py",
+        "line": 22,
+        "func": "run",
+        "cumtime": 0.557843694,
+        "tottime": 0.002324542,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 350,
+        "func": "_step_physics",
+        "cumtime": 0.555339423,
+        "tottime": 0.088343532,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 194,
+        "func": "velocity_tracking_action_batch",
+        "cumtime": 0.420933463,
+        "tottime": 0.08779534400000001,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/observer.py",
+        "line": 96,
+        "func": "build_all",
+        "cumtime": 0.292166519,
+        "tottime": 0.006054034000000001,
+        "calls": 601
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/obs_builder.py",
+        "line": 80,
+        "func": "build_all",
+        "cumtime": 0.28364194000000004,
+        "tottime": 0.0025299650000000003,
+        "calls": 601
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/obs_builder.py",
+        "line": 469,
+        "func": "_build_v5_batch",
+        "cumtime": 0.280911238,
+        "tottime": 0.171711063,
+        "calls": 601
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 113,
+        "func": "_apply_brake_speed_cap",
+        "cumtime": 0.23526985600000003,
+        "tottime": 0.07871346600000001,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/policies.py",
+        "line": 804,
+        "func": "plan",
+        "cumtime": 0.220802816,
+        "tottime": 0.016760029000000003,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/physics_core.py",
+        "line": 141,
+        "func": "step",
+        "cumtime": 0.21995730900000002,
+        "tottime": 0.051658326000000004,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/policies.py",
+        "line": 779,
+        "func": "_get_cached_actions",
+        "cumtime": 0.196148489,
+        "tottime": 0.011853137000000001,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/potential_fields.py",
+        "line": 59,
+        "func": "get_actions",
+        "cumtime": 0.18254298100000002,
+        "tottime": 0.08841742600000001,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/linalg/linalg.py",
+        "line": 2383,
+        "func": "norm",
+        "cumtime": 0.125767519,
+        "tottime": 0.071797157,
+        "calls": 21297
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 71,
+        "func": "_wrapreduction",
+        "cumtime": 0.113169485,
+        "tottime": 0.034773893,
+        "calls": 30046
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 2100,
+        "func": "clip",
+        "cumtime": 0.107450525,
+        "tottime": 0.013874683,
+        "calls": 20658
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 2322,
+        "func": "any",
+        "cumtime": 0.097361745,
+        "tottime": 0.018094549,
+        "calls": 22242
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 53,
+        "func": "_wrapfunc",
+        "cumtime": 0.096171482,
+        "tottime": 0.01191266,
+        "calls": 21858
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'reduce' of 'numpy.ufunc' objects>",
+        "cumtime": 0.09206320700000001,
+        "tottime": 0.09206320700000001,
+        "calls": 41026
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 899,
+        "func": "_compute_threat_metrics",
+        "cumtime": 0.08001854,
+        "tottime": 0.043445997,
+        "calls": 1201
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'clip' of 'numpy.ndarray' objects>",
+        "cumtime": 0.078863656,
+        "tottime": 0.007820847,
+        "calls": 20658
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'astype' of 'numpy.ndarray' objects>",
+        "cumtime": 0.074742584,
+        "tottime": 0.074742584,
+        "calls": 106143
+      }
+    ]
+  },
+  "baseline:flow_field": {
+    "scene": "scenarios/S7_dynamic_chaser.yaml",
+    "max_steps": 600,
+    "total_time_sec": 2.592988011005218,
+    "top": [
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/pz_env.py",
+        "line": 113,
+        "func": "step",
+        "cumtime": 1.448181033,
+        "tottime": 0.008848849,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/policies.py",
+        "line": 460,
+        "func": "step_batch",
+        "cumtime": 1.010381213,
+        "tottime": 0.135534814,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/rewarder.py",
+        "line": 132,
+        "func": "build_step_result",
+        "cumtime": 0.609978231,
+        "tottime": 0.25564689,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 303,
+        "func": "step",
+        "cumtime": 0.553141624,
+        "tottime": 0.005933624,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/decision_loop.py",
+        "line": 26,
+        "func": "run",
+        "cumtime": 0.542008842,
+        "tottime": 0.0013436860000000002,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/physics_loop.py",
+        "line": 22,
+        "func": "run",
+        "cumtime": 0.540665156,
+        "tottime": 0.0024578290000000004,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 350,
+        "func": "_step_physics",
+        "cumtime": 0.538020182,
+        "tottime": 0.078489737,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 194,
+        "func": "velocity_tracking_action_batch",
+        "cumtime": 0.36232846100000005,
+        "tottime": 0.067878678,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/flow_field.py",
+        "line": 92,
+        "func": "plan",
+        "cumtime": 0.308721527,
+        "tottime": 0.07355755800000001,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/observer.py",
+        "line": 96,
+        "func": "build_all",
+        "cumtime": 0.23570716400000002,
+        "tottime": 0.005938631000000001,
+        "calls": 603
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/physics_core.py",
+        "line": 141,
+        "func": "step",
+        "cumtime": 0.23057070500000001,
+        "tottime": 0.055140509000000004,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/obs_builder.py",
+        "line": 80,
+        "func": "build_all",
+        "cumtime": 0.227107993,
+        "tottime": 0.002311589,
+        "calls": 603
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/obs_builder.py",
+        "line": 469,
+        "func": "_build_v5_batch",
+        "cumtime": 0.22462562800000002,
+        "tottime": 0.131357782,
+        "calls": 603
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 113,
+        "func": "_apply_brake_speed_cap",
+        "cumtime": 0.221994664,
+        "tottime": 0.070346689,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/linalg/linalg.py",
+        "line": 2383,
+        "func": "norm",
+        "cumtime": 0.183704735,
+        "tottime": 0.107352002,
+        "calls": 39842
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 2100,
+        "func": "clip",
+        "cumtime": 0.12819054400000002,
+        "tottime": 0.017811585,
+        "calls": 25761
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 318,
+        "func": "normalize",
+        "cumtime": 0.11559862300000001,
+        "tottime": 0.035140562,
+        "calls": 8819
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 71,
+        "func": "_wrapreduction",
+        "cumtime": 0.11526786400000001,
+        "tottime": 0.035683775,
+        "calls": 29175
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 53,
+        "func": "_wrapfunc",
+        "cumtime": 0.113385149,
+        "tottime": 0.015070165000000002,
+        "calls": 26961
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 2322,
+        "func": "any",
+        "cumtime": 0.10238660000000001,
+        "tottime": 0.018297174000000003,
+        "calls": 21769
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'clip' of 'numpy.ndarray' objects>",
+        "cumtime": 0.093487393,
+        "tottime": 0.010211360000000001,
+        "calls": 26096
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'reduce' of 'numpy.ufunc' objects>",
+        "cumtime": 0.087198681,
+        "tottime": 0.087198681,
+        "calls": 36232
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/_methods.py",
+        "line": 90,
+        "func": "_clip",
+        "cumtime": 0.083276033,
+        "tottime": 0.083276033,
+        "calls": 26096
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 899,
+        "func": "_compute_threat_metrics",
+        "cumtime": 0.08133754600000001,
+        "tottime": 0.04407798,
+        "calls": 1203
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'astype' of 'numpy.ndarray' objects>",
+        "cumtime": 0.07294569000000001,
+        "tottime": 0.07294569000000001,
+        "calls": 109189
+      }
+    ]
+  },
+  "baseline:astar_grid": {
+    "scene": "scenarios/S7_dynamic_chaser.yaml",
+    "max_steps": 600,
+    "total_time_sec": 7.148404790998029,
+    "top": [
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/policies.py",
+        "line": 460,
+        "func": "step_batch",
+        "cumtime": 5.472316149,
+        "tottime": 0.197278001,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/astar_grid.py",
+        "line": 319,
+        "func": "plan",
+        "cumtime": 4.627259718,
+        "tottime": 0.26963293800000004,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/pz_env.py",
+        "line": 113,
+        "func": "step",
+        "cumtime": 1.5356279240000001,
+        "tottime": 0.009363949,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/astar_grid.py",
+        "line": 466,
+        "func": "_plan_or_reuse",
+        "cumtime": 1.4656143810000002,
+        "tottime": 0.09416389,
+        "calls": 10482
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/astar_grid.py",
+        "line": 1194,
+        "func": "_memory_threats_update",
+        "cumtime": 0.9572452570000001,
+        "tottime": 0.6465183010000001,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/astar_grid.py",
+        "line": 519,
+        "func": "_plan_action",
+        "cumtime": 0.8774594790000001,
+        "tottime": 0.019645675,
+        "calls": 2114
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/astar_grid.py",
+        "line": 1164,
+        "func": "_memory_walls_update",
+        "cumtime": 0.651155558,
+        "tottime": 0.397803456,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/rewarder.py",
+        "line": 132,
+        "func": "build_step_result",
+        "cumtime": 0.6154203530000001,
+        "tottime": 0.257171198,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 303,
+        "func": "step",
+        "cumtime": 0.580402693,
+        "tottime": 0.005938134,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/decision_loop.py",
+        "line": 26,
+        "func": "run",
+        "cumtime": 0.569264431,
+        "tottime": 0.001473174,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/physics_loop.py",
+        "line": 22,
+        "func": "run",
+        "cumtime": 0.567791257,
+        "tottime": 0.0023986940000000003,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 350,
+        "func": "_step_physics",
+        "cumtime": 0.565200883,
+        "tottime": 0.093500128,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 2322,
+        "func": "any",
+        "cumtime": 0.496078324,
+        "tottime": 0.08027392,
+        "calls": 98952
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 71,
+        "func": "_wrapreduction",
+        "cumtime": 0.46471724500000006,
+        "tottime": 0.135811402,
+        "calls": 110984
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 194,
+        "func": "velocity_tracking_action_batch",
+        "cumtime": 0.42532006,
+        "tottime": 0.08852374,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/astar_grid.py",
+        "line": 1003,
+        "func": "_frontier_goal",
+        "cumtime": 0.402783534,
+        "tottime": 0.16249775800000002,
+        "calls": 2114
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/astar_grid.py",
+        "line": 1425,
+        "func": "_cell_from_pos",
+        "cumtime": 0.38619687500000005,
+        "tottime": 0.377712786,
+        "calls": 62963
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/astar_grid.py",
+        "line": 1235,
+        "func": "_apply_wall_memory",
+        "cumtime": 0.344913526,
+        "tottime": 0.13226758500000002,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/linalg/linalg.py",
+        "line": 2383,
+        "func": "norm",
+        "cumtime": 0.32212258800000004,
+        "tottime": 0.188537372,
+        "calls": 67341
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/observer.py",
+        "line": 96,
+        "func": "build_all",
+        "cumtime": 0.289523061,
+        "tottime": 0.00619817,
+        "calls": 601
+      },
+      {
+        "file": "~",
+        "line": 0,
+        "func": "<method 'reduce' of 'numpy.ufunc' objects>",
+        "cumtime": 0.28835956900000004,
+        "tottime": 0.28835956900000004,
+        "calls": 116835
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 53,
+        "func": "_wrapfunc",
+        "cumtime": 0.286042197,
+        "tottime": 0.032380155,
+        "calls": 49264
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/obs_builder.py",
+        "line": 80,
+        "func": "build_all",
+        "cumtime": 0.280610211,
+        "tottime": 0.002380694,
+        "calls": 601
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/obs_builder.py",
+        "line": 469,
+        "func": "_build_v5_batch",
+        "cumtime": 0.27806266900000004,
+        "tottime": 0.17104786700000002,
+        "calls": 601
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/astar_grid.py",
+        "line": 855,
+        "func": "_global_plan_action",
+        "cumtime": 0.277544505,
+        "tottime": 0.09649167500000001,
+        "calls": 1518
+      }
+    ]
+  },
+  "baseline:mpc_lite": {
+    "scene": "scenarios/S7_dynamic_chaser.yaml",
+    "max_steps": 600,
+    "total_time_sec": 6.776305447994673,
+    "top": [
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/policies.py",
+        "line": 460,
+        "func": "step_batch",
+        "cumtime": 5.1967046550000005,
+        "tottime": 0.002139391,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/policies.py",
+        "line": 149,
+        "func": "step_batch",
+        "cumtime": 5.19445041,
+        "tottime": 0.01744487,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/policies.py",
+        "line": 138,
+        "func": "step",
+        "cumtime": 5.159573772,
+        "tottime": 0.020192872,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/policies.py",
+        "line": 445,
+        "func": "get_action",
+        "cumtime": 5.133944417,
+        "tottime": 0.056825754000000006,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/mpc_lite.py",
+        "line": 636,
+        "func": "plan",
+        "cumtime": 4.1011121280000005,
+        "tottime": 0.12171314000000001,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/mpc_lite.py",
+        "line": 865,
+        "func": "_choose_action_discrete",
+        "cumtime": 2.414464857,
+        "tottime": 0.011407688000000001,
+        "calls": 4615
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/mpc_lite.py",
+        "line": 1209,
+        "func": "_rollout_scores",
+        "cumtime": 2.312789925,
+        "tottime": 0.008092419,
+        "calls": 4615
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/mpc_lite.py",
+        "line": 1221,
+        "func": "_rollout_scores_with_context",
+        "cumtime": 2.036803018,
+        "tottime": 0.025018307,
+        "calls": 4615
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/pz_env.py",
+        "line": 113,
+        "func": "step",
+        "cumtime": 1.446175459,
+        "tottime": 0.00947516,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/mpc_lite.py",
+        "line": 1710,
+        "func": "_rollout_scores_velocity",
+        "cumtime": 1.197176178,
+        "tottime": 0.014955038,
+        "calls": 4615
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/astar_grid.py",
+        "line": 319,
+        "func": "plan",
+        "cumtime": 1.072032515,
+        "tottime": 0.06090368,
+        "calls": 2379
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/policies.py",
+        "line": 100,
+        "func": "_apply_controller",
+        "cumtime": 0.922879219,
+        "tottime": 0.013906204,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/policies.py",
+        "line": 624,
+        "func": "_apply_controller_core",
+        "cumtime": 0.905962221,
+        "tottime": 0.013831630000000001,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 266,
+        "func": "maybe_accel_action",
+        "cumtime": 0.714645168,
+        "tottime": 0.005191323,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 254,
+        "func": "apply_control_mode",
+        "cumtime": 0.7094538450000001,
+        "tottime": 0.011969494,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/utils.py",
+        "line": 138,
+        "func": "velocity_tracking_action",
+        "cumtime": 0.6974843510000001,
+        "tottime": 0.154412652,
+        "calls": 12000
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/rewarder.py",
+        "line": 132,
+        "func": "build_step_result",
+        "cumtime": 0.6080908730000001,
+        "tottime": 0.25483478600000004,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/mpc_lite.py",
+        "line": 1074,
+        "func": "_simulate_actions",
+        "cumtime": 0.59355375,
+        "tottime": 0.116579055,
+        "calls": 4615
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/mpc_lite.py",
+        "line": 1147,
+        "func": "_evaluate_trajectories",
+        "cumtime": 0.587627644,
+        "tottime": 0.398249118,
+        "calls": 4615
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 303,
+        "func": "step",
+        "cumtime": 0.554080177,
+        "tottime": 0.0059058850000000005,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/.local/lib/python3.10/site-packages/numpy/core/fromnumeric.py",
+        "line": 53,
+        "func": "_wrapfunc",
+        "cumtime": 0.553559617,
+        "tottime": 0.079605543,
+        "calls": 132542
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/baselines/mpc_lite.py",
+        "line": 1042,
+        "func": "_simulate_terminal_velocity",
+        "cumtime": 0.550782766,
+        "tottime": 0.090620976,
+        "calls": 4615
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/decision_loop.py",
+        "line": 26,
+        "func": "run",
+        "cumtime": 0.542993984,
+        "tottime": 0.0015410640000000002,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/physics_loop.py",
+        "line": 22,
+        "func": "run",
+        "cumtime": 0.54145292,
+        "tottime": 0.002421501,
+        "calls": 600
+      },
+      {
+        "file": "/home/radioactive/PycharmProjects/threat-aware-swarm/env/engine.py",
+        "line": 350,
+        "func": "_step_physics",
+        "cumtime": 0.53884593,
+        "tottime": 0.07889810700000001,
+        "calls": 600
+      }
+    ]
+  }
+}

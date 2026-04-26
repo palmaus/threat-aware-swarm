@@ -1,0 +1,44 @@
+# @package _global_
+
+defaults:
+  - _self_
+
+env: {}
+policies:
+  - baseline:flow_field
+  - baseline:astar_grid
+scenes:
+  - preset:sanity
+seeds: [0, 1, 2]
+success_threshold: 0.5
+max_steps: 600
+goal_radius: 3.0
+oracle_enabled: true
+deterministic: true
+out_dir: ""
+out_name: ""
+model: null
+stressors:
+  - name: wind_strong
+    overrides:
+      wind:
+        enabled: true
+        ou_theta: 0.25
+        ou_sigma: 0.9
+  - name: drag_heavy
+    overrides:
+      physics:
+        drag_coeff: 0.9
+  - name: sensor_noise
+    overrides:
+      obs_noise_target: 0.15
+      obs_noise_vel: 0.15
+      obs_noise_grid: 0.2
+
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+  job_logging:
+    root:
+      level: INFO
